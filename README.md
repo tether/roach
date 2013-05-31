@@ -2,6 +2,8 @@
 
 > A very adaptable web crawler framework. Impossible to kill.
 
+![Roach](roach_medium.png)
+
 ## Getting Started
 
 1. Install the module via npm:
