@@ -1,7 +1,7 @@
 {
   "name": "roach",
   "description": "A very adaptable web crawler framework. Impossible to kill.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": {
     "name": "PetroFeed Inc.",
     "email": "info@petrofeed.com"
