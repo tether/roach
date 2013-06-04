@@ -1,3 +1,7 @@
-module.exports = exports.Roach = require('./lib/crawler');
-exports.Job = require('./lib/job');
-exports.Parser = require('./lib/parser');
+var Roach = require('./lib/roach');
+
+Roach.Job = require('./lib/job');
+Roach.Parser = require('./lib/parser');
+Roach.Proxy = require('./lib/proxy');
+
+module.exports = exports.Roach = Roach;
