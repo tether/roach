@@ -2,7 +2,7 @@ var chai = require('chai'),
     sinon = require('sinon'),
     sinonChai = require("sinon-chai"),
     expect = chai.expect,
-    Parser = require('../lib/parser'),
+    Parser = require('../../lib/parser'),
     Event = require('events').EventEmitter;
 
 chai.use(sinonChai);
@@ -20,7 +20,6 @@ describe("roach.test.lib.parser", function() {
       emitter = new Event();
       parser = new Parser();
       parser.setDocument(document);
-      parser.setEmitter(emitter);
 
       obj = {
         trim : function (document, emitter){

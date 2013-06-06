@@ -1,6 +1,6 @@
 var chai = require('chai');
 var expect = chai.expect;
-var date = require('../utils/date.js');
+var date = require('../../utils/date.js');
 
 describe("roach.test.utils.date", function() {
   it("should have a day attribute in seconds", function() {

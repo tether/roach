@@ -2,7 +2,7 @@ var chai = require('chai'),
     sinon = require('sinon'),
     sinonChai = require("sinon-chai"),
     expect = chai.expect,
-    Proxy = require('../lib/proxy'),
+    Proxy = require('../../lib/proxy'),
     Event = require('events').EventEmitter;
 
 chai.use(sinonChai);
