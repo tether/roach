@@ -22,7 +22,7 @@ describe("roach.test.lib.proxy", function() {
       };
 
       // TEST
-      var proxy = new Proxy('http://google.com');
+      var proxy = new Proxy('http://google.com', { headers: {'User-Agent': 'foo'} });
 
       // VERIFY
       expect(proxy.options).to.deep.equal(expected);
@@ -50,9 +50,47 @@ describe("roach.test.lib.proxy", function() {
 
     });
 
+    it('should return true for an https url', function() {
+
+      // TEST
+      var result = proxy.isURI('https://foo.google.io');
+
+      // VERIFY
+      expect(result).to.be.true;
+
+    });
+
+    it('should return true for an ftp url', function() {
+
+      // TEST
+      var result = proxy.isURI('ftp://user:pass@www.google.com');
+
+      // VERIFY
+      expect(result).to.be.true;
+
+    });
+
+    it('should return false for non url string', function() {
+
+      // TEST
+      var result = proxy.isURI('/home/users/tmp/');
+
+      // VERIFY
+      expect(result).to.be.false;
+
+    });
+
   });
 
   describe("fetch", function() {
+
+    it("should call _visit if url is a URI");
+
+    it("should call _readFile if url is not a URI");
+
+  });
+
+  describe("_visit", function() {
 
     it("should return a single document as a string", function(done){
 
@@ -71,7 +109,7 @@ describe("roach.test.lib.proxy", function() {
     });
 
     it("should return an error when status code !== 200 ", function(done){
-      
+
       // SETUP
       var proxy = new Proxy("http://google.com/ahfsdhf");
 
