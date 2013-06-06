@@ -82,16 +82,16 @@ describe("roach.test.lib.parser", function() {
   describe('eventFilters', function(){
 
     var obj = null,
-        emitter = null,
         parser = null,
         document = null;
 
     beforeEach(function(){
+
       document = '         we are awesome      ha ha        ';
-      emitter = new Event();
+
       parser = new Parser();
+
       parser.setDocument(document);
-      parser.setEmitter(emitter);
 
       obj = {
         trim : function (document, emitter){
@@ -109,7 +109,6 @@ describe("roach.test.lib.parser", function() {
 
     afterEach(function(){
       document = null;
-      emitter = null;
       parser = null;
     });
 
@@ -118,14 +117,15 @@ describe("roach.test.lib.parser", function() {
       //SETUP
       var spy = sinon.spy();
 
-      // TEST
-      // parser.setEmitter(emitter);
 
-      emitter.on('parsed', spy);
+      parser.on('parsed', spy);
 
-      parser.addFilter(function(doc, emitter) {
+      parser.addFilter(function(doc, options, emitter) {
+
         emitter.emit('parsed');
+
         return doc;
+
       });
 
       parser.applyFilters();
