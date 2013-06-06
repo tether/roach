@@ -9,6 +9,49 @@ chai.use(sinonChai);
 
 describe("roach.test.lib.proxy", function() {
 
+  describe('constructor', function() {
+
+    it('should mixin defaults properly when options are passed', function() {
+
+      // SETUP
+      var expected = {
+        url: 'http://google.com',
+        headers: {
+          'User-Agent': 'foo'
+        }
+      };
+
+      // TEST
+      var proxy = new Proxy('http://google.com');
+
+      // VERIFY
+      expect(proxy.options).to.deep.equal(expected);
+
+    });
+
+  });
+
+  describe('isURI', function() {
+
+    var proxy;
+
+    before(function() {
+
+      proxy = new Proxy();
+    });
+
+    it('should return true for an http url', function() {
+
+      // TEST
+      var result = proxy.isURI('http://google.com');
+
+      // VERIFY
+      expect(result).to.be.true;
+
+    });
+
+  });
+
   describe("fetch", function() {
 
     it("should return a single document as a string", function(done){
