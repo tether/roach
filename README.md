@@ -14,23 +14,26 @@ npm install roach
 
 ## Usage
 
+### Basic
+
 ```js
-var Roach = require('roach');
-var Job = require('roach').Job;
+var Roach = require('roach'),
+    Job = Roach.Job;
 
-var crawler = new Roach();
+var roach = new Roach();
 
-crawler.use('mongo', { db: 'crawler' })
-       .use('rabbitmq')
-       .use('logger')
-       .then(runJob);
+// Use multiple transports with default options
+roach.use('logger').use('mongodb');
 
-function runJob( crawler ){
+// Add a job to get all the 'a' links from google.com
+roach.addJob( 'http://google.com', 'google' ).filter( 'links' );
 
-    var job = new Job();
-
-    job.filter(filter1).filter(cancellationBlock);
-
-    crawler.run(job);
-}
+// run the job
+roach.run();
 ```
+
+## License
+
+*Creative Commons 3.0 - Attribution Sharealike*
+
+You can remix, copy or use for both commercial and non-commercial products and services but you need to provide attribution for the original work in the source code to "*PetroFeed Inc.*". You must also share the original or any derivative under the same license. A description of the license can be found [here](http://creativecommons.org/licenses/by-sa/3.0).
