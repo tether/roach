@@ -97,31 +97,79 @@ describe("roach.test.lib.proxy", function() {
       // SETUP
       var proxy = new Proxy("http://google.com");
 
-      // TEST
-      proxy.fetch(function(error, document){
+      proxy.on('document', function(document){
 
         // VERIFY
-        expect(error).to.be.null;
-        expect(document).to.be.a.string;
 
+        expect(document).to.be.a.string;
         done();
       });
+
+      // TEST
+      proxy.fetch();
     });
 
-    it("should return an error when status code !== 200 ", function(done){
+    it("should return an error when status code !== 200", function(done){
 
       // SETUP
       var proxy = new Proxy("http://google.com/ahfsdhf");
 
-      proxy.fetch(function(error, document){
+      proxy.on('error', function(error){
 
         // VERIFY
-        expect(error).to.not.be.null;
-        expect(document).to.be.undefined;
 
+        expect(error).to.not.be.null;
         done();
       });
+
+      // TEST
+      proxy.fetch();
     });
+
+    it("should return an error when the filter finds an error");
+
+  });
+
+
+  describe("_readFile", function() {
+
+    it("should return a single document as a string when the file exists", function(done){
+
+      // SETUP
+      var proxy = new Proxy('package.json');
+
+      proxy.on('document', function(document){
+
+        // VERIFY
+
+        expect(document).to.be.a.string;
+        done();
+      });
+
+      // TEST
+      proxy.fetch();
+    });
+
+    it("should return an error when the file doesn't exist", function(done){
+
+      // SETUP
+      var proxy = new Proxy("/tmp/foo.txt");
+
+      proxy.on('error', function(error){
+
+        // VERIFY
+
+        expect(error).to.not.be.null;
+        done();
+      });
+
+      // TEST
+      proxy.fetch();
+    });
+
+    it("should return a single document as a string when the folder exists");
+
+    it("should return an error when the folder doesn't exist");
 
   });
 
