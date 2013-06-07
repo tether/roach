@@ -17,8 +17,7 @@ npm install roach
 ### Basic
 
 ```js
-var Roach = require('roach'),
-    Job = Roach.Job;
+var Roach = require('roach');
 
 var roach = new Roach();
 
