@@ -29,11 +29,11 @@ describe("roach.test.utils.date", function() {
 
     it("should return today's date in UTC with the proper timezone when the offset is passed in", function() {
       // SETUP
-      var expectedTime = date().utc().setZone('-0800').hours(0).minutes(0).seconds(0).milliseconds(0);
+      var expectedTime = date().utc().setZone('MST').hours(0).minutes(0).seconds(0).milliseconds(0);
 
       // TEST
       var result = date.today({
-        offset: '-0800'
+        offset: 'MST'
       });
 
       // VERIFY
