@@ -1,6 +1,6 @@
 var Utils = {};
 
-Utils.http = require('./http');
+Utils.request = require('./request');
 Utils.date = require('./date');
 Utils._ = require('underscore');
 Utils.str = Utils._.str = require('./string');

@@ -31,6 +31,49 @@ describe("roach.test.lib.proxy", function() {
 
   });
 
+  describe("isZipFile", function() {
+
+    var proxy;
+
+    before(function() {
+
+      proxy = new Proxy();
+    });
+
+    it("should return true when filename contains '.zip'", function(){
+      // SETUP
+      var filename = 'foo.zip';
+
+      // TEST
+      var result = proxy.isZipFile(filename);
+
+      // VERIFY
+      expect(result).to.be.true;
+    });
+
+    it("should return true when filename contains '.ZIP'", function(){
+      // SETUP
+      var filename = 'foo.ZIP';
+
+      // TEST
+      var result = proxy.isZipFile(filename);
+
+      // VERIFY
+      expect(result).to.be.true;
+    });
+
+    it("should return false when filename doesn't contain '.zip' or '.ZIP'", function(){
+      // SETUP
+      var filename = 'foobar';
+
+      // TEST
+      var result = proxy.isZipFile(filename);
+
+      // VERIFY
+      expect(result).to.be.false;
+    });
+  });
+
   describe('isURI', function() {
 
     var proxy;
