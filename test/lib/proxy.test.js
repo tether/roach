@@ -3,7 +3,8 @@ var chai = require('chai'),
     sinonChai = require("sinon-chai"),
     expect = chai.expect,
     Proxy = require('../../lib/proxy'),
-    Event = require('events').EventEmitter;
+    Event = require('events').EventEmitter,
+    path = require('path');
 
 chai.use(sinonChai);
 
@@ -127,9 +128,33 @@ describe("roach.test.lib.proxy", function() {
 
   describe("fetch", function() {
 
-    it("should call _visit if url is a URI");
+    it("should call _visit if url is a URI", function(){
 
-    it("should call _readFile if url is not a URI");
+      // SETUP
+      var proxy = new Proxy('http://google.com');
+
+      var spy = sinon.spy(proxy, '_visit');
+
+      // TEST
+      proxy.fetch();
+
+      // VERIFY
+      expect(spy).to.have.been.calledOnce;
+    });
+
+    it("should call _readFile if url is not a URI", function(){
+
+      // SETUP
+      var proxy = new Proxy('package.json');
+
+      var spy = sinon.spy(proxy, '_readFile');
+
+      // TEST
+      proxy.fetch();
+
+      // VERIFY
+      expect(spy).to.have.been.calledOnce;
+    });
 
   });
 
@@ -210,9 +235,23 @@ describe("roach.test.lib.proxy", function() {
       proxy.fetch();
     });
 
-    it("should return a single document as a string when the folder exists");
+    it("should return a directory path as a string if when directory exists", function(done){
+      // SETUP
+      var proxy = new Proxy('utils');
 
-    it("should return an error when the folder doesn't exist");
+      var expected = path.resolve(process.cwd(), 'utils');
+
+      proxy.on('document', function(document){
+
+        // VERIFY
+
+        expect(document).to.equal(expected);
+        done();
+      });
+
+      // TEST
+      proxy.fetch();
+    });
 
   });
 
