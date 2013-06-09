@@ -40,7 +40,7 @@ describe("roach.test.filters.directory", function() {
   it("should return all file paths for files in the directory that match a given selector", function() {
     // SETUP
     var expected = [
-      'package.json'
+      path.resolve(process.cwd(), 'package.json' )
     ];
 
     var selector = '.json';
