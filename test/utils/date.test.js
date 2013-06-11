@@ -33,7 +33,7 @@ describe("roach.test.utils.date", function() {
 
       // TEST
       var result = date.today({
-        offset: 'MST'
+        offset: 'PST'
       });
 
       // VERIFY
