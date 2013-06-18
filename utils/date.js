@@ -26,12 +26,14 @@ moment.minute = moment.duration(1, 'minutes').asSeconds(); // 60
 var today = moment.today = function(options){
   options = options || {};
 
-  var date = moment().utc().setZone(options.offset);
+  var date = moment().utc();
 
   parseInt(options.hours, 10) >= 0 ? date.hours(options.hours) : date.hours(0);
   parseInt(options.minutes, 10) >= 0 ? date.minutes(options.minutes) : date.minutes(0);
   parseInt(options.seconds, 10) >= 0 ? date.seconds(options.seconds) : date.seconds(0);
   parseInt(options.milliseconds, 10) >= 0 ? date.milliseconds(options.milliseconds) : date.milliseconds(0);
+
+  date.setZone(options.offset);
 
   return date;
 };
