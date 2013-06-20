@@ -4,7 +4,7 @@
 
 ![Roach](roach_medium.png)
 
-[![Build Status](https://travis-ci.org/[PetroFeed]/[roach].png)](https://travis-ci.org/[PetroFeed]/[roach])
+[![Build Status](https://travis-ci.org/PetroFeed/roach.png)](https://travis-ci.org/PetroFeed/roach)
 
 ## Getting Started
 
