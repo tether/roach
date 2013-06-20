@@ -4,6 +4,8 @@
 
 ![Roach](roach_medium.png)
 
+[![Build Status](https://travis-ci.org/[PetroFeed]/[roach].png)](https://travis-ci.org/[PetroFeed]/[roach])
+
 ## Getting Started
 
 1. Install the module via npm:
