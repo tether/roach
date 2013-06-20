@@ -5,3 +5,9 @@ node_js:
   - "0.8"
 before_script:
   - npm install -g grunt-cli
+notifications:
+  hipchat:
+    rooms:
+      - a798d9e84c6e9b0247f338eb11d3b3@Dev
+    template:
+      - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}'
