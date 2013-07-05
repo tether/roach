@@ -33,6 +33,30 @@ roach.addJob( 'http://google.com', 'google' ).filter( 'links' );
 roach.run();
 ```
 
+## Architecture
+
+TODO
+
+### Job
+
+TODO
+
+### Proxy
+
+TODO
+
+### Parser
+
+TODO
+
+### Filters
+
+TODO
+
+### Transports
+
+TODO
+
 ## License
 
 **Creative Commons 3.0 - Attribution Sharealike**
