@@ -18,7 +18,7 @@ describe("roach.test.utils.date", function() {
   describe("today", function() {
     it("should return today's date in UTC when no options are passed", function() {
       // SETUP
-      var expectedTime = date().utc().hours(0).minutes(0).seconds(0).milliseconds(0);
+      var expectedTime = date().hours(0).minutes(0).seconds(0).milliseconds(0).utc();
 
       // TEST
       var result = date.today();
@@ -29,7 +29,7 @@ describe("roach.test.utils.date", function() {
 
     it("should return today's date in UTC with the proper timezone when the offset is passed in", function() {
       // SETUP
-      var expectedTime = date().utc().hours(0).minutes(0).seconds(0).milliseconds(0).setZone('PST');
+      var expectedTime = date().hours(0).minutes(0).seconds(0).milliseconds(0).setZone('PST').utc();
 
       // TEST
       var result = date.today({
@@ -42,7 +42,7 @@ describe("roach.test.utils.date", function() {
 
     it("should return today's date in UTC when hours are passed in", function() {
       // SETUP
-      var expectedTime = date().utc().hours(2).minutes(0).seconds(0).milliseconds(0);
+      var expectedTime = date().hours(2).minutes(0).seconds(0).milliseconds(0).utc();
 
       // TEST
       var result = date.today({
@@ -55,7 +55,7 @@ describe("roach.test.utils.date", function() {
 
     it("should return today's date in UTC when minutes are passed in", function() {
       // SETUP
-      var expectedTime = date().utc().hours(2).minutes(34).seconds(0).milliseconds(0);
+      var expectedTime = date().hours(2).minutes(34).seconds(0).milliseconds(0).utc();
 
       // TEST
       var result = date.today({
@@ -69,7 +69,7 @@ describe("roach.test.utils.date", function() {
 
     it("should return today's date in UTC when seconds are passed in", function() {
       // SETUP
-      var expectedTime = date().utc().hours(0).minutes(0).seconds(29).milliseconds(0);
+      var expectedTime = date().hours(0).minutes(0).seconds(29).milliseconds(0).utc();
 
       // TEST
       var result = date.today({
@@ -82,7 +82,7 @@ describe("roach.test.utils.date", function() {
 
     it("should return today's date in UTC when milliseconds are passed in", function() {
       // SETUP
-      var expectedTime = date().utc().hours(0).minutes(12).seconds(0).milliseconds(2);
+      var expectedTime = date().hours(0).minutes(12).seconds(0).milliseconds(2).utc();
 
       // TEST
       var result = date.today({
@@ -98,7 +98,7 @@ describe("roach.test.utils.date", function() {
   describe("tomorrow", function() {
     it("should return tomorrow's date in UTC", function() {
       // SETUP
-      var expectedTime = date().utc().hours(0).minutes(0).seconds(0).milliseconds(0).add('days', 1);
+      var expectedTime = date().hours(0).minutes(0).seconds(0).milliseconds(0).add('days', 1).utc();
 
       // TEST
       var result = date.tomorrow();
@@ -111,7 +111,7 @@ describe("roach.test.utils.date", function() {
   describe("yesterday", function() {
     it("should return yesterday's date in UTC", function() {
       // SETUP
-      var expectedTime = date().utc().hours(0).minutes(0).seconds(0).milliseconds(0).subtract('days', 1);
+      var expectedTime = date().hours(0).minutes(0).seconds(0).milliseconds(0).subtract('days', 1).utc();
 
       // TEST
       var result = date.yesterday();
