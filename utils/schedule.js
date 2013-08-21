@@ -1,6 +1,5 @@
 var date = require('./date');
 
-
 /**
  * Expose 'scheduler'
  */
