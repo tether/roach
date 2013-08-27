@@ -39,5 +39,10 @@ function scheduler(schedule, today){
     }
   }
 
+  // if today is one of the days that is part of a pre-determined schedule, move on
+  if (schedule.fixed && schedule.fixed.indexOf( today.format('YYYY-MM-DD') ) !== -1 ){
+      return true;
+  }
+
   return false;
 };
