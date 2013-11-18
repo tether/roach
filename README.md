@@ -91,7 +91,11 @@ proxy.filter( 'directory' )
 
 ## Architecture
 
-TODO
+![Architecture](docs/img/crawler_architecture.jpg)
+
+### Data Flow
+
+![Data Flow](docs/img/crawler_data_flow.jpg)
 
 ### Job
 
