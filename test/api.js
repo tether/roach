@@ -30,6 +30,10 @@ describe("API", function() {
 			assert.equal(typeof job.once, 'function');
 			assert.equal(typeof job.off, 'function');
 		});
+
+    it('should expose config', function() {
+      assert.equal(typeof job.config, 'function');
+    });
 		
 	});
 	
