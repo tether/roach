@@ -1,4 +1,4 @@
-# Roach
+# Roach 2
 
 > A very adaptable web crawler framework. Impossible to kill.
 
@@ -8,108 +8,42 @@
 
 ## Getting Started
 
-1. Install the module via npm:
+1. Clone the repo or download the zip file from here
+
+2. `cd path/to/roach2`
   
+3. Install dependencies
+
 ```
-npm install roach
+npm install
 ```
 
 ## Usage
 
-### Single Document, Roach Filter, Multiple Transports
-
-```js
-var Roach = require('roach');
-
-var roach = new Roach();
-
-// Use multiple transports with default options
-roach.use('rabbitmq').use('mongodb');
-
-// Add a job to get all the 'a' links from google.com
-roach.addJob( 'http://google.com', 'google' ).filter( 'links' );
-
-// run the job
-roach.run();
-```
-
-### Multiple Documents, Roach Filter, Multiple Transports
-
-```js
-var Roach = require('roach'),
-    Proxy = Roach.Proxy;
-
-var roach = new Roach();
-
-// Use multiple transports with default options
-roach.use('rabbitmq').use('mongodb');
-
-var proxy = new Proxy( 'http://google.com', 'google' );
-
-proxy.filter('links')
-     .each(function(url, index){
-        roach.addJob(url, 'job:' + index)
-             .filter('filters/xml_parser.js');
-      })
-     .run(function(){
-        roach.run();
-      });
-```
-
-### Reading From File System, Custom Proxy & Parser Filters
-
-**Note:** Custom filters need to end with `.js` (crappy I know, but it was tricky to automatically resolve your filters vs. our custom ones.)
-
-```js
-var Roach = require('roach'),
-    Proxy = Roach.Proxy;
-
-var roach = new Roach();
-
-var config = roach.config('config.json');
-
-roach.use('redis', config.transports.redis);
-
-var proxy = new Proxy( '/tmp', 'awesomesauce' );
-
-// Use the Roach directory filter and a custom filter
-// to grab every .txt file the '/tmp' directory
-proxy.filter( 'directory' )
-	 .filter( 'filters/text_file.js' )
-	 .each(function(filepath, index){
-
-	 	// Apply some custom filters to each job that 
-	 	// gets created from each fetched file
-	    roach.addJob(filepath, 'job:' + index)
-	         .filter('filters/special_error.js')
-	         .filter('filters/every_third_word.js');
-	 })
-	 .run(function(){
-	    roach.run();
-	 });
-```
+TODO
 
 ## Architecture
 
-![Architecture](docs/img/crawler_architecture.jpg)
+![Architecture](docs/img/architecture.jpg)
 
-### Data Flow
 
-![Data Flow](docs/img/crawler_data_flow.jpg)
-
-### Job
+### Server
 
 TODO
 
-### Proxy
+### Scheduler
 
 TODO
 
-### Parser
+### Queue
 
 TODO
 
-### Filters
+### Crawler
+
+TODO
+
+### Steps
 
 TODO
 
@@ -220,12 +154,6 @@ We provide a few helpful utility libraries wrapped up in the `Roach.Utils` names
 * `Roach.Utils._` -> [underscore](http://underscorejs.org)
 * `Roach.Utils._.str` -> [underscore-string](http://epeli.github.io/underscore.string/)
 * `Roach.Utils.date` -> [moment](http://momentjs.com)
-
-## License
-
-**Creative Commons 3.0 - Attribution Sharealike**
-
-You can remix, copy or use for both commercial and non-commercial products and services but you need to provide attribution for the original work in the source code to *"PetroFeed Inc."*. You must also share the original or any derivative under the same license. A description of the license can be found [here](http://creativecommons.org/licenses/by-sa/3.0).
 
 ---
 
