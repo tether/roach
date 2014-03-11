@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+
+var program = require('commander'),
+		path = require('path'),
+		resolve = path.resolve,
+		roach = require('..');
+
+/**
+ * Usage.
+ */
+
+program
+  .version(require('../package.json').version)
+  .usage('[<input>] [<output>]');
+
+
+/**
+ * Examples.
+ */
+
+program.on('--help', function () {
+  console.log('  Examples:');
+  console.log();
+  console.log();
+});
+
+
+/**
+ * Parse.
+ */
+
+program.parse(process.argv);

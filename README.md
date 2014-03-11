@@ -9,18 +9,26 @@
 
     $ npm install roach
 
+  Roach is also a command line:
+
+    $ npm install -g roach
+
 ## Test
 
   Roach uses [mocha](http://github.com/visionmedia/mocha) for tests:
 
     $ make test
 
+  To test the command line, please create a symlink as following:
+
+    $ sudo npm link
+
 
 ## License
 
   The MIT License (MIT)
 
-  Copyright (c) 2014 <copyright holders>
+  Copyright (c) 2014 <Petrofeed Ind>
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
