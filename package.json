@@ -17,11 +17,10 @@
   },
   "main": "index.js",
   "devDependencies": {
-
+    "mocha": "~1.17.1"
   },
   "scripts": {
     "test": "mocha"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
