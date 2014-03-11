@@ -24,7 +24,7 @@ describe("Config", function() {
 		assert.equal(job.config('name'), 'get release notes');				
 	});
 
-	describe("Observable", function() {
+	describe("Observable sandbox", function() {
 		it('should listen for changes in config', function(done) {
 			job.sandbox.on('change type', function() {
 				done();
