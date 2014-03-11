@@ -4,8 +4,31 @@
  * Module dependencies.
  */
 
-var program = require('commander');
+var program = require('commander'),
+		path = require('path'),
+		fs = require('fs'),
+		join = path.join,
+		read = fs.readFileSync,
+		readdir = fs.readdirSync,
+		exists = fs.existsSync,
+		mkdir = require('mkdirp').sync;
 
+//log fatal
+
+function error(msg){
+  var w = 10;
+  var type = 'error';
+  var len = Math.max(0, w - type.length);
+  var pad = Array(len + 1).join(' ');
+  console.error('  \033[31m%s\033[m : \033[90m%s\033[m', pad + type, msg);
+}
+
+function fatal(){
+  console.error();
+  error.apply(null, arguments);
+  console.error();
+  process.exit(1);
+}
 
 // usage
 
@@ -14,7 +37,7 @@ program.usage('[dir]');
 // options
 
 program
-  .option('-l, --local', 'create a local private component')
+  .option('-s, --schedule', 'create a scheduled bug')
   .parse(process.argv);
 
 // config
@@ -27,4 +50,50 @@ var dir = program.args[0] || '.';
 
 // --local
 
-var local = program.local;
+var schedule = program.schedule;
+
+// already a component
+
+if(exists(dir)) {
+  fatal(dir + ' directory already exists');
+}
+
+/**
+ * Verbose write.
+ */
+
+function write(path, str) {
+  if (exists(path)) {
+    utils.warn('exists', path);
+  } else {
+    utils.log('create', path);
+    fs.writeFileSync(path, str);
+  }
+}
+
+var prompt = {
+  name: 'job (name): ',
+  desc: 'description: '
+};
+
+// prompt
+
+program.prompt(prompt, function(obj){
+	var name = obj.name;
+
+  // populate json
+  conf.name = name;
+  conf.description = obj.desc;
+  conf.version = "0.0.1";
+  // dir
+  console.log();
+  utils.log('create', dir);
+  mkdir(dir);
+
+  // write component.json
+  write(join(dir, 'roach.json'), JSON.stringify(conf, null, 2));
+
+  console.log();
+  process.exit();
+});
+

@@ -5,6 +5,7 @@ var program = require('commander'),
 		resolve = path.resolve,
 		join = path.join,
 		fs = require('fs'),
+		spawn = require('win-fork'),
 		exists = fs.existsSync;
 
 /**
@@ -65,3 +66,11 @@ if (!exists(bin)) {
   console.error('\n  %s(1) does not exist', bin);
   program.help();
 }
+
+// spawn
+
+var proc = spawn(bin, args, { stdio: 'inherit', customFds: [0, 1, 2] });
+
+proc.on('close', function(code){
+  process.exit(code);
+});

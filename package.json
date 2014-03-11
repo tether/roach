@@ -29,6 +29,8 @@
   "dependencies": {
     "component-emitter": "~1.1.2",
     "store-component": "~0.1.5",
-    "commander": "~2.1.0"
+    "commander": "~2.1.0",
+    "win-fork": "~1.1.1",
+    "mkdirp": "~0.3.5"
   }
 }
