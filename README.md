@@ -5,12 +5,15 @@
 
 ## Installation
 
-  Install with [component(1)](http://component.io):
+  Install with [nodejs](http://nodejs.org):
 
-    $ component install petrofeed/roach
+    $ npm install roach
 
-## API
+## Test
 
+  Roach uses [mocha](http://github.com/visionmedia/mocha) for tests:
+
+    $ make test
 
 
 ## License

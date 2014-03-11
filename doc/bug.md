@@ -36,7 +36,7 @@ var bug = module.exports = roach.bug();
 
 ### .emit(topic) and .on(topic)
 
- A `bug` inherits from an emitter in order to get commands from raoch or to send data to it. 
+ A `bug` inherits from an emitter in order to get commands from roach or to send data to it. 
 
  Emit message.
 
@@ -51,6 +51,10 @@ bug.on('command', function(cmd) {
 	//do something
 });
 ```
+
+ A bug can respond to multiple events:
+   - `start` start crawling data
+   - `stop` stop crawling data
 
 ### .config(name, data)
 
