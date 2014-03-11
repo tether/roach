@@ -22,5 +22,7 @@
   "scripts": {
     "test": "mocha"
   },
-  "dependencies": {}
+  "dependencies": {
+    "component-emitter": "~1.1.2"
+  }
 }
