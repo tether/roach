@@ -1,4 +1,4 @@
-> We want to revamp our crawler system.
+> A centralized crawling as a service
 
 # Phase 1
 
