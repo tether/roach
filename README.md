@@ -1,4 +1,4 @@
-# Roach 2
+# Roach
 
 > A very adaptable web crawler framework. Impossible to kill.
 
