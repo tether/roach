@@ -15,6 +15,10 @@
     "node": "=0.10.x",
     "npm": "=1.2.x"
   },
+  "bin": {
+    "roach": "bin/roach",
+    "roach-create": "bin/roach-create"
+  },
   "main": "index.js",
   "devDependencies": {
     "mocha": "~1.17.1"

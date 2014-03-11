@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var program = require('commander');
+
+
+// usage
+
+program.usage('[dir]');
+
+// options
+
+program
+  .option('-l, --local', 'create a local private component')
+  .parse(process.argv);
+
+// config
+
+var conf = {};
+
+// dest
+
+var dir = program.args[0] || '.';
+
+// --local
+
+var local = program.local;

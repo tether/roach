@@ -23,12 +23,18 @@
 
     $ sudo npm link
 
+## Documentation
+
+  - [roach](./doc/server.md)
+  - [job](./doc/bug.md)
+  - [cli](./doc/cli.md)
+
 
 ## License
 
   The MIT License (MIT)
 
-  Copyright (c) 2014 <Petrofeed Ind>
+  Copyright (c) 2014 <Petrofeed Inc>
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
