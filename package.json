@@ -32,6 +32,7 @@
     "commander": "1.0.5",
     "win-fork": "~1.1.1",
     "mkdirp": "~0.3.5",
-    "multiline": "~0.2.0"
+    "multiline": "~0.2.0",
+    "redis": "~0.10.1"
   }
 }
