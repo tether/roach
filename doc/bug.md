@@ -1,5 +1,7 @@
 # bug
 
+  > status : [public]()
+
   A roach bug is a scheduled job.
 
 ## Concept
