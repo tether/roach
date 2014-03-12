@@ -102,7 +102,7 @@ program.prompt(prompt, function(obj){
   console.log();
   log('create', dir);
   mkdir(dir);
-
+  mkdir(dir + '/steps');
   // write index.js
   write(join(dir, 'index.js'), multiline(function(){/*
 var roach = require('roach');

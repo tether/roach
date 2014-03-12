@@ -8,12 +8,29 @@ Install cli:
 
     $ npm install -g roach
 
+
+## Create
+
+ Create a roach bug.
+
 ```
-Usage: marc [<input>] [<output>]
+Usage: roach create [<dir>]
 
 Examples:
 
-  # pass an input and output file:
-  $ myth input.md output.html
+  # create a bug:
+  $ roach create name
   
+```
+
+ > alias : `roach-create`
+
+
+  It generates the following directory tree:
+
+```
+dir_name
+  -> roach.json
+  -> index.js
+    -> steps
 ```
