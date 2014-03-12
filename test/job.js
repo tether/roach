@@ -24,6 +24,11 @@ describe("Config", function() {
 		assert.equal(job.config('name'), 'get release notes');				
 	});
 
+	it('should mixin with roach.json', function() {
+		assert.equal(job.config('name'), 'weather');
+		assert.equal(job.config('description'), 'get weather');
+	});
+
 	describe("Observable sandbox", function() {
 		it('should listen for changes in config', function(done) {
 			job.sandbox.on('change type', function() {
