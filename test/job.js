@@ -24,6 +24,17 @@ describe("Config", function() {
 		assert.equal(job.config('name'), 'get release notes');				
 	});
 
+	it('returns the config', function() {
+		job.config({
+			name: 'weather',
+			type: 'http'
+		});
+		assert.deepEqual(job.config(), {
+			name: 'weather',
+			type: 'http'
+		});
+	});
+
 	// it('should mixin with roach.json', function() {
 	// 	assert.equal(job.config('name'), 'weather');
 	// 	assert.equal(job.config('description'), 'get weather');
