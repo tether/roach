@@ -5,7 +5,7 @@ describe("start job", function() {
 	var master, job;
 	beforeEach(function() {
 		master = roach();
-		job = roach.bug();
+		job = roach.job();
 	});
 	
 	it('should start job', function(done) {

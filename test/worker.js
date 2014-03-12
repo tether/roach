@@ -5,7 +5,7 @@ assert = require('assert');
 describe("Worker", function() {
 	var worker, job, client;
 	beforeEach(function() {
-		job = {};
+		job = roach.job();
 		worker = new Worker(job);
 		client = worker.client;
 	});
@@ -23,13 +23,16 @@ describe("Worker", function() {
 
 	it("should be a job", function() {
 		assert.equal(worker.job, job);
-		
 	});
 	
 
 	describe("start", function() {
-		it("should start a job", function() {
-			
+
+		it("should start a job", function(done) {
+			job.start(function(){
+				done();
+			});
+			worker.start();
 		});
 		
 	});

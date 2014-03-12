@@ -17,11 +17,11 @@ describe("API", function() {
 
 		var job;
 		beforeEach(function() {
-			job = roach.bug();
+			job = roach.job();
 		});
 		
 		it("should expose a function constructor to build jobs", function() {
-			assert.equal(typeof roach.bug, 'function');	
+			assert.equal(typeof roach.job, 'function');	
 		});
 
 		it('should inherit from an emitter', function() {

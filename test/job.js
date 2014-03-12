@@ -5,7 +5,7 @@ describe("Config", function() {
 
 	var job;
 	beforeEach(function() {
-		job = roach.bug();
+		job = roach.job();
 	});
 	
 	it('should set and get config', function() {
@@ -57,7 +57,7 @@ describe("Life cycle", function() {
 	
 	var job;
 	beforeEach(function() {
-		job = roach.bug();
+		job = roach.job();
 	});
 
 	describe("start", function() {

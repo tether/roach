@@ -2,7 +2,7 @@
 
   > status : [private]()
 
- A worker is the internal representation of a job process. It is private and is basically a redis client + a bug job.
+ A worker is the internal representation of a job process. It is private and is basically a redis client + a job
 
 
 ## Concept
@@ -18,5 +18,5 @@
 
 ### Lifecycles
 
- A bug is just a nice and clean API to communicate with the worker. Something really nice is that you can initialize your job even before it's started (when the job receives the `start` command). For example, you could grab and store some data before processing it on `start`.
+ A job is just a nice and clean API to communicate with the worker. Something really nice is that you can initialize your job even before it's started (when the job receives the `start` command). For example, you could grab and store some data before processing it on `start`.
 
