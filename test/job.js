@@ -24,10 +24,10 @@ describe("Config", function() {
 		assert.equal(job.config('name'), 'get release notes');				
 	});
 
-	it('should mixin with roach.json', function() {
-		assert.equal(job.config('name'), 'weather');
-		assert.equal(job.config('description'), 'get weather');
-	});
+	// it('should mixin with roach.json', function() {
+	// 	assert.equal(job.config('name'), 'weather');
+	// 	assert.equal(job.config('description'), 'get weather');
+	// });
 
 	describe("Observable sandbox", function() {
 		it('should listen for changes in config', function(done) {
@@ -39,4 +39,42 @@ describe("Config", function() {
 	});
 	
 
+});
+
+
+describe("Life cycle", function() {
+	
+	var job;
+	beforeEach(function() {
+		job = roach.bug();
+	});
+
+	describe("start", function() {
+		
+		it('should have a start handler', function() {
+			assert.equal(typeof job.start, 'function');
+		});
+
+		it('should execute start on start command', function(done) {
+			job.start(function() {
+				done();
+			});
+			job.emit('start');
+		});
+
+	});
+
+	describe('stop', function() {
+		it('should have a stop handler', function() {
+			assert.equal(typeof job.stop, 'function');
+		});
+
+		it('should emit a stop command', function(done) {
+			job.on('stop', function() {
+				done();
+			});
+			job.stop(); //hammer time
+		});
+	});
+	
 });
