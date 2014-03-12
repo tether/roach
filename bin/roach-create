@@ -11,7 +11,8 @@ var program = require('commander'),
 		read = fs.readFileSync,
 		readdir = fs.readdirSync,
 		exists = fs.existsSync,
-		mkdir = require('mkdirp').sync;
+		mkdir = require('mkdirp').sync,
+		multiline = require('multiline');
 
 //log fatal
 
@@ -28,6 +29,18 @@ function fatal(){
   error.apply(null, arguments);
   console.error();
   process.exit(1);
+}
+
+function log(type, msg, color){
+  color = color || '36';
+  var w = 10;
+  var len = Math.max(0, w - type.length);
+  var pad = Array(len + 1).join(' ');
+  console.log('  \033[' + color + 'm%s\033[m : \033[90m%s\033[m', pad + type, msg);
+}
+
+function warn(type, msg){
+  log(type, msg, '33');
 }
 
 // usage
@@ -64,9 +77,9 @@ if(exists(dir)) {
 
 function write(path, str) {
   if (exists(path)) {
-    utils.warn('exists', path);
+    warn('exists', path);
   } else {
-    utils.log('create', path);
+    log('create', path);
     fs.writeFileSync(path, str);
   }
 }
@@ -87,10 +100,17 @@ program.prompt(prompt, function(obj){
   conf.version = "0.0.1";
   // dir
   console.log();
-  utils.log('create', dir);
+  log('create', dir);
   mkdir(dir);
 
-  // write component.json
+  // write index.js
+  write(join(dir, 'index.js'), multiline(function(){/*
+var roach = require('roach');
+
+var bug = module.exports = roach.bug();
+*/}));
+
+  // write roach.json
   write(join(dir, 'roach.json'), JSON.stringify(conf, null, 2));
 
   console.log();
