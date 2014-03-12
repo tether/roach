@@ -15,7 +15,7 @@
 
 ## Test
 
-  Roach uses [mocha](http://github.com/visionmedia/mocha) for tests:
+  Make sure [`redis`](http://redis.io/topics/quickstart) is up and running. Then:
 
     $ make test
 
