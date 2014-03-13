@@ -2,6 +2,7 @@ var roach = require('..'),
 assert = require('assert');
 
 describe("start job", function() {
+
 	var master, job;
 	beforeEach(function() {
 		master = roach();
@@ -15,3 +16,18 @@ describe("start job", function() {
 		master.use(job);
 	});
 });
+
+describe("queue job", function() {
+
+	var master, job;
+	beforeEach(function() {
+		master = roach();
+		job = roach.job();
+	});
+
+	it("should have an add handler", function() {
+		assert.equal(typeof master.add, 'function');
+	});
+	
+});
+
