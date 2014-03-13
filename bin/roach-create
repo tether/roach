@@ -107,7 +107,7 @@ program.prompt(prompt, function(obj){
   write(join(dir, 'index.js'), multiline(function(){/*
 var roach = require('roach');
 
-var bug = module.exports = roach.bug();
+var job = module.exports = roach.job();
 */}));
 
   // write roach.json
