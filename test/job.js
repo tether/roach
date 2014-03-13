@@ -135,12 +135,6 @@ describe("Log", function() {
 		assert.equal(typeof job.log, 'function');
 	});
 
-	it('should emit a log event', function(done) {
-		job.on('log', function() {
-			done();
-		});
-		job.log();
-	});
 
 	it('should emit message log', function(done) {
 		job.on('log', function(msg) {
@@ -148,7 +142,28 @@ describe("Log", function() {
 		});
 		job.log('test');
 	});
-	it('should have a sprintf style', function() {});
 
+	it('should not emit a log event if message empty', function() {
+		var called = false;
+		job.on('log', function() {
+			false = true;
+		});
+		job.log();
+		assert.equal(called, false);
+	});
+
+	it('should have a sprintf style', function(done) {
+		job.on('log', function(msg) {
+			if(msg === 'test roach') done();
+		});
+		job.log('test %s', 'roach');
+	});
+
+	it('should have a array-like style', function(done) {
+		job.on('log', function(msg) {
+			if(msg === 'test jobs roach') done();
+		});
+		job.log('test %1 %0', 'roach', 'jobs');
+	});
 });
 
