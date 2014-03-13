@@ -2,7 +2,7 @@
 
   > status : [public]()
   
-  A roach server initialize databases and scheduled jobs.
+  A roach server is a queue backend by redis which add and use jobs.
 
 ## Concept
 
