@@ -14,7 +14,8 @@ var program = require('commander'),
 
 program
   .version(require('../package.json').version)
-  .usage('<command> [options]');
+  .usage('<command> [options]')
+  .option('-r, --redis', 'set redis authentication config');
 
 
 /**
@@ -51,26 +52,53 @@ var bin = 'roach-' + cmd;
 
 var local = join(__dirname, bin);
 
-if (exists(local)) {
-  bin = local;
+
+function spawnCmd() {
+
+  if (exists(local)) {
+    bin = local;
+  } else {
+    // bin = process.env.PATH.split(':').reduce(function(binary, p) {
+    //   p = resolve(p, bin);
+    //   return exists(p) && stat(p).isFile() ? p : binary;
+    // }, bin);
+  }
+
+  // display help if bin does not exist
+
+  if (!exists(bin)) {
+    console.error('\n  %s(1) does not exist', bin);
+    program.help();
+  }
+
+  // spawn
+
+  var proc = spawn(bin, args, { stdio: 'inherit', customFds: [0, 1, 2] });
+
+  proc.on('close', function(code){
+    process.exit(code);
+  });
+
+}
+
+
+if(program.redis) {
+
+  var prompt = {
+    port: 'port (default: 6379) : ',
+    desc: 'host (default: 127.0.0.1) : '
+  };
+
+  // prompt
+
+  program.prompt(prompt, function(obj){
+    console.log(obj);
+    spawnCmd();
+  });
+
 } else {
-  // bin = process.env.PATH.split(':').reduce(function(binary, p) {
-  //   p = resolve(p, bin);
-  //   return exists(p) && stat(p).isFile() ? p : binary;
-  // }, bin);
+  spawnCmd();
 }
 
-// display help if bin does not exist
 
-if (!exists(bin)) {
-  console.error('\n  %s(1) does not exist', bin);
-  program.help();
-}
 
-// spawn
-
-var proc = spawn(bin, args, { stdio: 'inherit', customFds: [0, 1, 2] });
-
-proc.on('close', function(code){
-  process.exit(code);
-});
