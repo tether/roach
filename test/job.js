@@ -123,3 +123,32 @@ describe("Progress", function() {
 	});
 	
 });
+
+describe("Log", function() {
+	
+	var job;
+	beforeEach(function() {
+		job = roach.job();
+	});
+
+	it('should have a log handler', function() {
+		assert.equal(typeof job.log, 'function');
+	});
+
+	it('should emit a log event', function(done) {
+		job.on('log', function() {
+			done();
+		});
+		job.log();
+	});
+
+	it('should emit message log', function(done) {
+		job.on('log', function(msg) {
+			if(msg === 'test') done();
+		});
+		job.log('test');
+	});
+	it('should have a sprintf style', function() {});
+
+});
+
