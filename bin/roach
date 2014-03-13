@@ -86,13 +86,16 @@ if(program.redis) {
 
   var prompt = {
     port: 'port (default: 6379) : ',
-    desc: 'host (default: 127.0.0.1) : '
+    host: 'host (default: 127.0.0.1) : '
   };
 
   // prompt
 
   program.prompt(prompt, function(obj){
-    console.log(obj);
+    var conf = {};
+    obj.port = obj.port || 6379;
+    conf.host = obj.host || '127.0.0.1'
+    console.log(conf);
     spawnCmd();
   });
 
