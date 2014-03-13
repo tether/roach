@@ -89,3 +89,37 @@ describe("Life cycle", function() {
 	});
 	
 });
+
+describe("Progress", function() {
+
+	var job;
+	beforeEach(function() {
+		job = roach.job();
+	});
+
+	it("should have a progress handler", function() {
+		assert.equal(typeof job.progress, 'function');
+	});
+
+	it('should emit progress message', function(done) {
+		job.on('progress', function() {
+			done();
+		});
+		job.progress();
+	});
+
+	it('should emit how complete it is', function(done) {
+		job.on('progress', function(val) {
+			if(val === 10) done();
+		});
+		job.progress(10);
+	});
+
+	it('should emit how complete it is relative to total', function(done) {
+		job.on('progress', function(val) {
+			if(val === 10) done();
+		});
+		job.progress(13, 120);
+	});
+	
+});
