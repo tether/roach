@@ -13,6 +13,7 @@ describe("Add", function() {
 
 	afterEach(function() {
 		client.lpop(Queue.key);
+		client.set(Queue.key + ':id', 0);
 	});
 	
 	it("should add a job into the queue list", function(done) {
@@ -25,9 +26,12 @@ describe("Add", function() {
 
 	});
 	
-	// it('should increment a job id key', function(done) {
-	// 	client.exists('roach:jobs:id', function(err, res) {
-	// 		if(res === 1) done();
-	// 	});
-	// });
+	it('should increment a job id key', function(done) {
+		queue.add('test');
+		queue.add('other', function() {
+			client.get(Queue.key + ':id', function(err, res) {
+				if(Number(res) === 2) done();
+			});
+		});
+	});
 });
