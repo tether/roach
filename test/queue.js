@@ -4,7 +4,8 @@ var Queue = require('../lib/queue'),
 
 var client = redis.createClient();
 
-describe("Add", function() {
+describe("Add job", function() {
+
 	var queue;
 	beforeEach(function() {
 		Queue.key = 'test:jobs';
@@ -27,11 +28,23 @@ describe("Add", function() {
 	});
 	
 	it('should increment a job id key', function(done) {
+
 		queue.add('test');
 		queue.add('other', function() {
 			client.get(Queue.key + ':id', function(err, res) {
 				if(Number(res) === 2) done();
 			});
 		});
+
 	});
+
+	it("should send notif when job is added", function(done) {
+		queue.on('added', function() {
+			done();
+		});
+		queue.add('test');
+	});
+	
+
+
 });
