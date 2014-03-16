@@ -27,6 +27,7 @@ exports.mixin = function(to, from) {
   return to;
 };
 
+
 /**
  * Clone Objects.
  * example:
@@ -41,3 +42,21 @@ exports.mixin = function(to, from) {
 
 exports.clone = require('clone-bredele');
 
+
+/**
+ * Transform an array like into an array.
+ * (useful for scope arguments)
+ * example:
+ *
+ *   utils.toArray(arguments);
+ *   utils.toArray(obj, 1);
+ *   
+ * @param  {Object} arg 
+ * @param  {Number} idx 
+ * @return {Array} 
+ * @api public
+ */
+
+exports.toArray = function(arg, idx) {
+	return [].slice.call(arg, idx);
+};

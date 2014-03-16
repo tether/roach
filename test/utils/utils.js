@@ -41,6 +41,25 @@ describe("Clone", function() {
   
 });
 
+describe("toArray", function() {
+  
+  it("should have a toArray handler", function() {
+    assert.equal(typeof utils.toArray, 'function');    
+  });
+
+  it("should transform an array like into an array", function() {
+    var obj = {
+      0: 'roach',
+      1: 'github',
+      length: 2
+    };
+    var result = utils.toArray(obj);
+    assert(result instanceof Array);
+  });
+  
+
+});
+
 
 describe("Node utils", function() {
   
