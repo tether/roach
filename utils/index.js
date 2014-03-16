@@ -1,62 +1,13 @@
+var util = require('lodash');
+
+
+//mixin with nodejs util
+
+util.mixin(require('util'));
+
 
 /**
  * Expose 'Utils'
  */
 
-exports = module.exports = require('util');
-
-
-/**
- * Mixin two objects (clone properties).
- * example:
- *
- *   utils.mixin(to, from);
- *
- * @param {Object} to 
- * @param {Object} from 
- * @return {object} to
- * @api public
- */
-
-exports.mixin = function(to, from) {
-  for (var key in from) {
-    if (from.hasOwnProperty(key)) {
-      to[key] = from[key];
-    }
-  }
-  return to;
-};
-
-
-/**
- * Clone Objects.
- * example:
- *
- *   utils.clone(to);
- *
- * Arrays are objects in JavaScript.
- * 
- * @return  {Object} 
- * @api public
- */
-
-exports.clone = require('clone-bredele');
-
-
-/**
- * Transform an array like into an array.
- * (useful for scope arguments)
- * example:
- *
- *   utils.toArray(arguments);
- *   utils.toArray(obj, 1);
- *   
- * @param  {Object} arg 
- * @param  {Number} idx 
- * @return {Array} 
- * @api public
- */
-
-exports.toArray = function(arg, idx) {
-	return [].slice.call(arg, idx);
-};
+exports = module.exports = util;

@@ -1,66 +1,6 @@
 var utils = require('../../utils'),
     assert = require('assert');
 
-describe("Mixin", function() {
-  it("should have a mixin handler", function() {
-    assert.equal(typeof utils.mixin, 'function'); 
-  });
-
-  it('should mixin two objects', function() {
-    var to = {
-      name: 'roach'
-    };
-    utils.mixin(to, {
-      type: 'github'
-    });
-    assert.deepEqual(to, {
-      name: 'roach',
-      type: 'github'
-    });
-  });
-  
-});
-
-describe("Clone", function() {
-
-  it("should have a clone handler", function() {
-    assert.equal(typeof utils.clone, 'function');    
-  });
-
-  it('should clone an object and return a copy', function() {
-    var obj = {
-      name: 'roach'
-    };
-    assert.deepEqual(utils.clone(obj), obj);
-  });
-
-  it('should work with arrays as well', function() {
-    var arr = ['roach', 'github'];
-    assert.deepEqual(utils.clone(arr), arr);
-  });
-  
-});
-
-describe("toArray", function() {
-  
-  it("should have a toArray handler", function() {
-    assert.equal(typeof utils.toArray, 'function');    
-  });
-
-  it("should transform an array like into an array", function() {
-    var obj = {
-      0: 'roach',
-      1: 'github',
-      length: 2
-    };
-    var result = utils.toArray(obj);
-    assert(result instanceof Array);
-  });
-  
-
-});
-
-
 describe("Node utils", function() {
   
   it("format", function() {
