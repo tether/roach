@@ -22,8 +22,21 @@ describe("Mixin", function() {
 });
 
 describe("Clone", function() {
+
   it("should have a clone handler", function() {
     assert.equal(typeof utils.clone, 'function');    
+  });
+
+  it('should clone an object and return a copy', function() {
+    var obj = {
+      name: 'roach'
+    };
+    assert.deepEqual(utils.clone(obj), obj);
+  });
+
+  it('should work with arrays as well', function() {
+    var arr = ['roach', 'github'];
+    assert.deepEqual(utils.clone(arr), arr);
   });
   
 });
