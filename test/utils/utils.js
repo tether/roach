@@ -5,8 +5,29 @@ describe("Mixin", function() {
   it("should have a mixin handler", function() {
     assert.equal(typeof utils.mixin, 'function'); 
   });
+
+  it('should mixin two objects', function() {
+    var to = {
+      name: 'roach'
+    };
+    utils.mixin(to, {
+      type: 'github'
+    });
+    assert.deepEqual(to, {
+      name: 'roach',
+      type: 'github'
+    });
+  });
   
 });
+
+describe("Clone", function() {
+  it("should have a clone handler", function() {
+    assert.equal(typeof utils.clone, 'function');    
+  });
+  
+});
+
 
 describe("Node utils", function() {
   

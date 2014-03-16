@@ -34,6 +34,7 @@
     "mkdirp": "~0.3.5",
     "multiline": "~0.2.0",
     "redis": "~0.10.1",
-    "express": "~3.4.8"
+    "express": "~3.4.8",
+    "clone-bredele": "0.0.1"
   }
 }

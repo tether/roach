@@ -26,3 +26,17 @@ exports.mixin = function(to, from) {
   }
   return to;
 };
+
+/**
+ * Clone Objects.
+ * example:
+ *
+ *   utils.clone(to);
+ *
+ * Arrays are objects in JavaScript.
+ * 
+ * @return  {Object} 
+ * @api public
+ */
+
+exports.clone = require('clone-bredele');
