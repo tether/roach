@@ -1,7 +1,7 @@
 var roach = require('..'),
 assert = require('assert');
 
-describe("start job", function() {
+describe("start job (debug purpose)", function() {
 
 	var master, job;
 	beforeEach(function() {
@@ -27,6 +27,18 @@ describe("queue job", function() {
 
 	it("should have an add handler", function() {
 		assert.equal(typeof master.add, 'function');
+	});
+
+	it('should start job if added', function(done) {
+		job.start(done);
+		master.add('weather');
+		master.use('weather', job);
+	});
+
+	it('should start job on add', function(done) {
+		job.start(done);
+		master.use('weather', job);
+		master.add('weather');
 	});
 	
 });
