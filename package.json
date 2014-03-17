@@ -36,6 +36,7 @@
     "redis": "~0.10.1",
     "express": "~3.4.8",
     "clone-bredele": "0.0.1",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "emitter-queue": "~0.1.0"
   }
 }
