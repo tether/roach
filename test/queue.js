@@ -30,13 +30,13 @@ describe("Create", function() {
     queue = new Queue();
   });
 
-  it("should have a create handler", function() {
+  it("should have a push handler", function() {
     //create is private
-    assert(queue.create);
+    assert(queue.push);
   });
 
   it("should push new job id into the queue", function(done) {
-    queue.create('weather', {
+    queue.push('weather', {
       type: 'haha'
     }).then(function(val) {
       //is the task id
