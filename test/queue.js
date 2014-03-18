@@ -23,6 +23,29 @@ describe("Local", function() {
   
 });
 
+describe("Create", function() {
+
+  var queue;
+  beforeEach(function() {
+    queue = new Queue();
+  });
+
+  it("should have a create handler", function() {
+    //create is private
+    assert(queue.create);
+  });
+
+  it("should push new job id into the queue", function(done) {
+    queue.create('weather', {
+      type: 'haha'
+    }).then(function(val) {
+      //is the task id
+      if(typeof val === 'number') done();
+    });
+  });
+  
+});
+
 
 // var client = redis.createClient();
 
