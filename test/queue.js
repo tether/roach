@@ -2,26 +2,50 @@ var Queue = require('../lib/queue'),
     assert = require('assert'),
     redis = require('redis');
 
+var client = redis.createClient();
 
-describe("Local", function() {
+// describe("Local", function() {
 
-  describe("Add", function() {
+//   describe("Add", function() {
 
-    var queue;
-    beforeEach(function() {
-      queue = new Queue();
-    });
+//     var queue;
+//     beforeEach(function() {
+//       queue = new Queue();
+//     });
 
-    it("should queue events", function(done) {
-      queue.add('event');
-      queue.on('added event', function(val) {
-        done();
-      });
-    });
+//     it("should queue events", function(done) {
+//       queue.add('event');
+//       queue.on('added event', function(val) {
+//         done();
+//       });
+//     });
     
-  });
+//   });
   
-});
+// });
+
+// describe("Push", function() {
+
+//   var queue;
+//   beforeEach(function() {
+//     queue = new Queue();
+//   });
+
+//   it("should have a push handler", function() {
+//     //create is private
+//     assert(queue.push);
+//   });
+
+//   it("should push new job id into the queue", function(done) {
+//     queue.push('weather', {
+//       type: 'haha'
+//     }).then(function(val) {
+//       //is the task id
+//       if(typeof val === 'number') done();
+//     });
+//   });
+  
+// });
 
 describe("Create", function() {
 
@@ -30,21 +54,27 @@ describe("Create", function() {
     queue = new Queue();
   });
 
-  it("should have a push handler", function() {
+  it("should have a create handler", function() {
     //create is private
-    assert(queue.push);
+    assert(queue.create);
   });
 
-  it("should push new job id into the queue", function(done) {
-    queue.push('weather', {
-      type: 'haha'
-    }).then(function(val) {
-      //is the task id
-      if(typeof val === 'number') done();
+  it("should create a hashkey for the task", function(done) {
+    queue.on('added', function(name, id, options) {
+      client.hgetall(Queue.key + ':' + id, function(err, res) {
+        if(!err) done();
+      });
     });
+
+    queue.add('weather', {
+      city: 'calgary',
+      time: 'morning'
+    });
+
   });
   
 });
+
 
 
 // var client = redis.createClient();
