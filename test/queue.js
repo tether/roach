@@ -4,48 +4,47 @@ var Queue = require('../lib/queue'),
 
 var client = redis.createClient();
 
-// describe("Local", function() {
+describe("Local", function() {
 
-//   describe("Add", function() {
+  describe("Add", function() {
 
-//     var queue;
-//     beforeEach(function() {
-//       queue = new Queue();
-//     });
+    var queue;
+    beforeEach(function() {
+      queue = new Queue();
+    });
 
-//     it("should queue events", function(done) {
-//       queue.add('event');
-//       queue.on('added event', function(val) {
-//         done();
-//       });
-//     });
+    it("should queue events", function(done) {
+      queue.add('event');
+      queue.on('added event', function(val) {
+        done();
+      });
+    });
     
-//   });
+  });
   
-// });
+});
 
-// describe("Push", function() {
+describe("Push", function() {
 
-//   var queue;
-//   beforeEach(function() {
-//     queue = new Queue();
-//   });
+  var queue;
+  beforeEach(function() {
+    queue = new Queue();
+  });
 
-//   it("should have a push handler", function() {
-//     //create is private
-//     assert(queue.push);
-//   });
+  it("should have a push handler", function() {
+    assert(queue.push);
+  });
 
-//   it("should push new job id into the queue", function(done) {
-//     queue.push('weather', {
-//       type: 'haha'
-//     }).then(function(val) {
-//       //is the task id
-//       if(typeof val === 'number') done();
-//     });
-//   });
+  it("should push new job id into the queue", function(done) {
+    queue.push('weather', {
+      type: 'haha'
+    }).then(function(val) {
+      //is the task id
+      if(typeof val === 'number') done();
+    });
+  });
   
-// });
+});
 
 describe("Create", function() {
 
@@ -55,11 +54,11 @@ describe("Create", function() {
   });
 
   it("should have a create handler", function() {
-    //create is private
     assert(queue.create);
   });
 
   it("should create a hashkey for the task", function(done) {
+
     queue.on('added', function(name, id, options) {
       client.hgetall(Queue.key + ':' + id, function(err, res) {
         if(!err) done();
@@ -75,6 +74,37 @@ describe("Create", function() {
   
 });
 
+describe("Get", function() {
+
+  var queue;
+  beforeEach(function(){
+    queue = new Queue();
+  });
+
+  it("should have a get handler", function() {
+    assert(queue.get);
+  });
+
+  it("sould return a promise with the job hashkey as value", function(done) {
+
+    queue.on('added', function(name, id) {
+      queue.get(id).then(function(value) {
+        done(assert.deepEqual(value, {
+          name: 'stock',
+          currency: 'dollars',
+          company: 'apple'
+        }));
+      });
+    });
+
+    queue.add('stock', {
+      currency: 'dollars',
+      company: 'apple'
+    });
+  });
+  
+  
+});
 
 
 // var client = redis.createClient();
