@@ -1,10 +1,23 @@
+//redis queue
+1: eric
+2: eric
+3: weather
+
+
+//server
+
+roach();
+
+
+//eric
 
 /**
  * Dependencies
  * @api private
  */
 
-var roach = require('roach');
+var roach = require('roach'),
+		utils = require('roach/utils');
 
 
 //expose job
@@ -12,6 +25,6 @@ var roach = require('roach');
 var job = module.exports = roach.job();
 
 
-job.start(function() {
-	//start processing weather
+job.on('start', function() {
+	//
 });

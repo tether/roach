@@ -24,27 +24,28 @@ describe("Local", function() {
   
 });
 
-describe("Push", function() {
+//Comment to test init
+// describe("Push", function() {
 
-  var queue;
-  beforeEach(function() {
-    queue = new Queue();
-  });
+//   var queue;
+//   beforeEach(function() {
+//     queue = new Queue();
+//   });
 
-  it("should have a push handler", function() {
-    assert(queue.push);
-  });
+//   it("should have a push handler", function() {
+//     assert(queue.push);
+//   });
 
-  it("should push new job id into the queue", function(done) {
-    queue.push('weather', {
-      type: 'haha'
-    }).then(function(val) {
-      //is the task id
-      if(typeof val === 'number') done();
-    });
-  });
+//   it("should push new job id into the queue", function(done) {
+//     queue.push('weather', {
+//       type: 'haha'
+//     }).then(function(val) {
+//       //is the task id
+//       if(typeof val === 'number') done();
+//     });
+//   });
   
-});
+// });
 
 describe("Create", function() {
 
@@ -60,7 +61,7 @@ describe("Create", function() {
   it("should create a hashkey for the task", function(done) {
 
     queue.on('added', function(name, id, options) {
-      client.hgetall(Queue.key + ':' + id, function(err, res) {
+      client.hgetall('roach:jobs:' + id, function(err, res) {
         if(!err) done();
       });
     });
@@ -106,50 +107,17 @@ describe("Get", function() {
   
 });
 
+describe("Init", function() {
 
-// var client = redis.createClient();
-
-// describe("Add job", function() {
-
-//  var queue;
-//  beforeEach(function() {
-//    Queue.key = 'test:jobs';
-//    queue = new Queue();
-//  });
-
-//  afterEach(function() {
-//    client.lpop(Queue.key);
-//    client.set(Queue.key + ':id', 0);
-//  });
+  it("should add jobs into the queue on init", function() {
+    var queue, arr;
+    client.lrange('roach:jobs', 0, -1, function(err, res) {
+      arr = res;
+      queue = new Queue();
+      queue.on('added', function(name, id, options) {
+        console.log(name, id, options);
+      });
+    });
+  });
   
-//  it("should add a job into the queue list", function(done) {
-
-//    queue.add('test', function(err, r) {
-//      client.lrange(Queue.key, 0, 0, function(err, res) {
-//        if(res[0] === 'test') done();
-//      });
-//    });
-
-//  });
-  
-//  it('should increment a job id key', function(done) {
-
-//    queue.add('test');
-//    queue.add('other', function() {
-//      client.get(Queue.key + ':id', function(err, res) {
-//        if(Number(res) === 2) done();
-//      });
-//    });
-
-//  });
-
-//  it("should send notif when job is added", function(done) {
-//    queue.on('added', function() {
-//      done();
-//    });
-//    queue.add('test');
-//  });
-  
-
-
-// });
+});
