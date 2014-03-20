@@ -1,23 +1,10 @@
-//redis queue
-1: eric
-2: eric
-3: weather
-
-
-//server
-
-roach();
-
-
-//eric
 
 /**
  * Dependencies
  * @api private
  */
 
-var roach = require('roach'),
-		utils = require('roach/utils');
+var roach = require('../..');
 
 
 //expose job
