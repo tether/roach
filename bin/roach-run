@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var Roach = require('..'),
+		path = require('path');
+
+Roach().scan(path.resolve('.'));

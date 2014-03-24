@@ -47,3 +47,22 @@ describe("queue job", function() {
 	
 });
 
+describe("function job:", function() {
+	
+	var master;
+	beforeEach(function() {
+		master = roach();
+	});
+
+	it('should pass a job to the function', function(done) {
+		master.use('something', function(job) {
+			job.start(function() {
+				done();
+			});
+		});
+		master.add('something');
+	});
+
+});
+
+
