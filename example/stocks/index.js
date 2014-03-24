@@ -1,14 +1,20 @@
-var roach = require('../..'),
-		client = require('redis').createClient();
+var roach = require('../..');
 
 var job = module.exports = roach.job();
 
 job.on('start', function() {
-	console.log('stocks');
+	console.log('stocks start');
+	progress();
 });
 
-client.on('message', function(channel, message) {
-	console.log(channel, message);
-});
-
-client.subscribe("channel");
+function progress() {
+	var i = 0;
+	var interval = setInterval(function() {
+		job.progress(i, 100);
+		i = i + 10;
+		if(i === 100) {
+			clearInterval(interval);
+	    job.stop();
+		}
+	}, 1000);
+}
