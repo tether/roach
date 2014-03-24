@@ -1,11 +1,10 @@
 # job
 
-  > status : [public]()
+  > status : [public](#concept)
 
 ## Concept
 
- A job is a simple and clean API that helps you to communicate with a roach server. It's the entry point of your crawler but it totally independant from it (could potentially be used in client side). Do whatever you want, a job just carries the data and receive commands
- from roach.
+ A job is a simple and clean API that helps you to communicate with a roach server. It's the entry point of your crawler but it totally independant from it (could potentially be used in client side). Do whatever you want, a job just carries the data and receive or send commands to redis.
 
  It is inspired by expressjs and its middleware mechanism.
 
@@ -17,8 +16,9 @@ var wells = module.exports = roach.job();
 
 ```js
 roach()
-  .use(wells)
-  .use(rigs)
+  .use('wells',wells)
+  .use('licenses', wells)
+  .use('rigs',rigs)
 
 ```
 
@@ -32,30 +32,36 @@ roach()
 var job = module.exports = roach.job();
 ```
 
- It is important to export the job in order to be used by roach.
+ It is important to export the job in order to be used by roach. However, a job can run in a separate process and communicate with a roach server.
 
 
 ### .emit(topic) and .on(topic)
 
- A `job` inherits from an emitter in order to get commands from roach or to send data to it. 
+ A `job` inherits from an emitter. 
 
  Emit message.
 
 ```js
+//send message inside the job
 job.emit('data', data);
 ```
 
  Receive messages.
 
 ```js
-job.on('command', function(cmd) {
+job.on('data', function(cmd) {
   //do something
 });
 ```
 
- A job can respond to multiple events:
-   - `start` start crawling data
-   - `stop` stop crawling data
+It is only through the private topic `_publish` that you can send commands to redis (some handlers such as `progress`, `log` or `stop` use it). 
+
+```js
+//send command to redis
+job.emit('_publish', 'something');
+```
+
+All the `_publish` commands are queued until the job is initialized by roach and get an id (on start). This way a job is impossible to kill/break and can start processing stuff even before getting started by roach.
 
 ### .config(name, data)
 
@@ -141,5 +147,10 @@ job.on('start', function() {
 });
 ```
 
+### .stop()
 
+ Send `stop` command to roach.
 
+```js
+job.stop(); //hammer time
+```

@@ -1,6 +1,7 @@
 var app = require('..')(),
 		client = require('redis').createClient();
 
+
 app.scan(__dirname);
 
 
