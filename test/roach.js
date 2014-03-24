@@ -30,13 +30,17 @@ describe("queue job", function() {
 	});
 
 	it('should start job if added', function(done) {
-		job.start(done);
+		job.start(function() {
+			done();
+		});
 		master.add('traffic');
 		master.use('traffic', job);
 	});
 
 	it('should start job on add', function(done) {
-		job.start(done);
+		job.start(function() {
+			done();
+		});
 		master.use('weather', job);
 		master.add('weather');
 	});
