@@ -7,7 +7,7 @@ app.scan(__dirname);
 
 client.psubscribe("roach:job:*");
 client.on("pmessage", function (pattern, channel, message) {
-	console.log(channel, message);
+	console.log(pattern, channel, message);
 });
 
 setTimeout(function() {
