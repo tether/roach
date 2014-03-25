@@ -167,3 +167,19 @@ describe("Log", function() {
 	});
 });
 
+
+describe("Data", function() {
+	var job;
+	beforeEach(function() {
+		job = roach.job();
+	});
+
+	it("should queued data events", function(done) {
+		job.data('other');
+		job.on('_data', function(val) {
+			if(val === 'other') done();
+		});
+	});
+	
+
+});
