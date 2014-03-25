@@ -11,6 +11,6 @@ client.on("pmessage", function (pattern, channel, message) {
 });
 
 setTimeout(function() {
-	app.add('weather');
+	app.add('weather', {city:'calgary'});
 	app.add('stocks');
-}, 3000);
+}, 100);
