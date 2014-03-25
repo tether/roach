@@ -2,10 +2,15 @@ var roach = require('../..');
 
 var job = module.exports = roach.job();
 
-job.on('start', function() {
+console.log('subscribe stocks');
+job.subscribe('stocks');
+
+
+job.start(function() {
 	console.log('stocks start');
 	progress();
 });
+
 
 function progress() {
 	var i = 0;
