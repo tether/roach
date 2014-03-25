@@ -113,7 +113,9 @@ array-like:
 ```js
 job.log('name %1 %0','roach', 'jobs');
 ```
-  > In the future, `log` could have priorities in order to display syslog-like messages (warn, error, etc).
+ In the future, `log` could have priorities in order to display syslog-like messages (warn, error, etc).
+
+  > pubsub pattern is `roach:job:$id` 
 
 ### .process(value, total)
 
@@ -128,6 +130,17 @@ or ratio on total:
 ```js
 job.process(13, 120);
 ```
+
+  > pubsub pattern is `roach:job:$id` 
+
+### .data(smthg)
+
+ Publish data to redis through the private `_data` command. Data are published only if the job is identified by roach (has an id).
+
+```js
+job.data('something');
+```
+  > pubsub pattern is `roach:job:$id:data` 
 
 ### .start(fn)
 
@@ -154,3 +167,5 @@ job.on('start', function() {
 ```js
 job.stop(); //hammer time
 ```
+
+  > pubsub pattern is `roach:job:$id` 
