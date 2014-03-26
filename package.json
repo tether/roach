@@ -22,7 +22,8 @@
   "main": "index.js",
   "devDependencies": {
     "mocha": "~1.17.1",
-    "fstream": "~0.1.25"
+    "fstream": "~0.1.25",
+    "through": "~2.3.4"
   },
   "scripts": {
     "test": "mocha"
@@ -41,6 +42,7 @@
     "component-promise": "0.0.2",
     "uberproto": "~1.1.1",
     "request": "~2.34.0",
-    "unzip": "~0.1.9"
+    "unzip": "~0.1.9",
+    "csv-streamify": "~0.9.1"
   }
 }

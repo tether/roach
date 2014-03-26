@@ -1,6 +1,9 @@
 var roach = require('..');
 var assert = require('assert');
-var writable = require('stream').Writable;
+var stream = require('stream');
+var readable = require('fs').createReadStream;
+var writable = stream.Writable;
+var transformable = stream.Transform;
 
 describe("Mixin", function() {
 
@@ -56,24 +59,43 @@ describe("Get file", function() {
 
 });
 
-describe("Unzip", function() {
+describe("CSV", function() {
 
-  var crawler, ws;
+  var crawler;
   beforeEach(function() {
     crawler = roach.crawler();
-    ws = writable();
-    //this is wrong
-    ws._write = function (chunk, enc, next) {
-      console.log('hihi',chunk);
-      next();
-    };
   });
 
-  it('should unzip archive', function(done) {
-    var writeStream = require('fstream').Writer(__dirname);
-    crawler('file://' + __dirname + '/test.zip')
-      .pipe(crawler.unzip())
-      .pipe(ws);
+  it("should read and parse csv file", function(done) {
+    crawler('file://' + __dirname + '/fixtures/roach.csv')
+      .pipe(crawler.csv({objectMode:true}, function(err, doc) {
+        if(!err) done();
+      }));
   });
-
+  
 });
+
+
+// describe("Unzip", function() {
+
+//   var crawler, ws;
+//   beforeEach(function() {
+//     crawler = roach.crawler();
+//     ws = transformable();
+//     //this is wrong
+//     ws._transform = function (chunk, enc, done) {
+//       console.log('hihi',chunk);
+//       done();
+//     };
+//   });
+
+//   it('should unzip archive', function(done) {
+
+//     crawler('file://' + __dirname + '/test.zip')
+//       .pipe(crawler.unzip())
+//       .on('data', function() {
+//         console.log('data');
+//       });
+//   });
+
+// });
