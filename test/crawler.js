@@ -21,13 +21,14 @@ describe("Get file", function() {
   beforeEach(function() {
     crawler = roach.crawler();
     ws = writable();
-    //this is wrong
+    //to force end/finish
     ws._write = function (chunk, enc, next) {
       next();
     };
   });
 
   it("should have a http handler", function(done) {
+    //can not be piped
     crawler.http('http://rawgithub.com/petrofeed/roach/master/README.md', function(err, res, body) {
       if(!err) done();
     });
@@ -56,5 +57,23 @@ describe("Get file", function() {
 });
 
 describe("Unzip", function() {
-  
+
+  var crawler, ws;
+  beforeEach(function() {
+    crawler = roach.crawler();
+    ws = writable();
+    //this is wrong
+    ws._write = function (chunk, enc, next) {
+      console.log('hihi',chunk);
+      next();
+    };
+  });
+
+  it('should unzip archive', function(done) {
+    var writeStream = require('fstream').Writer(__dirname);
+    crawler('file://' + __dirname + '/test.zip')
+      .pipe(crawler.unzip())
+      .pipe(ws);
+  });
+
 });

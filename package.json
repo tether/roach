@@ -21,7 +21,8 @@
   },
   "main": "index.js",
   "devDependencies": {
-    "mocha": "~1.17.1"
+    "mocha": "~1.17.1",
+    "fstream": "~0.1.25"
   },
   "scripts": {
     "test": "mocha"
@@ -39,6 +40,7 @@
     "emitter-queue": "~0.1.2",
     "component-promise": "0.0.2",
     "uberproto": "~1.1.1",
-    "request": "~2.34.0"
+    "request": "~2.34.0",
+    "unzip": "~0.1.9"
   }
 }
