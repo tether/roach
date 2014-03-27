@@ -143,6 +143,19 @@ describe("Event stream", function() {
     assert(crawler.stringify);
     //...
   });
+
+  it('should do a lot of stuff', function(done) {
+    crawler('file://' + __dirname + '/fixtures/roach.text')
+      .pipe(crawler.split())
+      .pipe(crawler.mapSync(function(data) {
+        return data.toUpperCase();
+      }))
+      .pipe(crawler.join(' '))
+      .pipe(crawler.wait())
+      .on('data', function(data) {
+        if(data === 'ERIC ASHLEY MARK AMIT') done();
+      });
+  });
   
 });
 
