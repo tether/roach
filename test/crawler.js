@@ -123,6 +123,30 @@ describe("XML", function() {
   });
 });
 
+describe("Event stream", function() {
+
+  var crawler;
+  beforeEach(function() {
+    crawler = roach.crawler();
+  });
+
+  it("should inherit from event-stream", function() {
+    assert(crawler.split);
+    assert(crawler.pipeline);
+    assert(crawler.map);
+    assert(crawler.through);
+    assert(crawler.mapSync);
+    assert(crawler.join);
+    assert(crawler.merge);
+    assert(crawler.replace);
+    assert(crawler.parse);
+    assert(crawler.stringify);
+    //...
+  });
+  
+});
+
+
 // describe("Unzip", function() {
 
 //   var crawler, ws;

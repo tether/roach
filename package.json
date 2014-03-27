@@ -44,6 +44,7 @@
     "request": "~2.34.0",
     "unzip": "~0.1.9",
     "csv-streamify": "~0.9.1",
-    "trumpet": "~1.6.3"
+    "trumpet": "~1.6.3",
+    "event-stream": "~3.1.1"
   }
 }
