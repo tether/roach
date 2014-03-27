@@ -84,11 +84,17 @@ describe("HTML", function() {
   });
 
   it("should read and parse html file", function(done) {
+    var ws = writable({objectMode:true});
+    ws._write = function(chunk, enc, cb) {
+      var result = chunk.toString();
+      if(result === 'this is a footer') done();
+      cb();
+    };
     crawler('file://' + __dirname + '/fixtures/roach.html')
       .pipe(crawler.html(function() {
-        this.select('footer', function(footer) {
-          console.log(footer);
-        });
+        this.select('footer')
+          .createReadStream()
+          .pipe(ws);
       }));
   });
   
