@@ -76,6 +76,25 @@ describe("CSV", function() {
 });
 
 
+describe("HTML", function() {
+
+  var crawler;
+  beforeEach(function() {
+    crawler = roach.crawler();
+  });
+
+  it("should read and parse html file", function(done) {
+    crawler('file://' + __dirname + '/fixtures/roach.html')
+      .pipe(crawler.html(function() {
+        this.select('footer', function(footer) {
+          console.log(footer);
+        });
+      }));
+  });
+  
+});
+
+
 // describe("Unzip", function() {
 
 //   var crawler, ws;

@@ -43,6 +43,7 @@
     "uberproto": "~1.1.1",
     "request": "~2.34.0",
     "unzip": "~0.1.9",
-    "csv-streamify": "~0.9.1"
+    "csv-streamify": "~0.9.1",
+    "trumpet": "~1.6.3"
   }
 }
