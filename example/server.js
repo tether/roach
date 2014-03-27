@@ -3,6 +3,8 @@ var app = require('..')(),
 		client = require('redis').createClient();
 
 
+console.log(process.title);
+
 //app.scan(__dirname);
 
 //fork doesn't work, why?
