@@ -101,6 +101,28 @@ describe("HTML", function() {
 });
 
 
+describe("XML", function() {
+  var crawler;
+  beforeEach(function() {
+    crawler = roach.crawler();
+  });
+
+  it("should read and parse xml file", function(done) {
+    var ws = writable({objectMode:true});
+    ws._write = function(chunk, enc, cb) {
+      var result = chunk.toString();
+      if(result === 'Empire Burlesque') done();
+      cb();
+    };
+    crawler('file://' + __dirname + '/fixtures/roach.xml')
+      .pipe(crawler.xml(function() {
+        this.select('item title')
+          .createReadStream()
+          .pipe(ws);
+      }));
+  });
+});
+
 // describe("Unzip", function() {
 
 //   var crawler, ws;
