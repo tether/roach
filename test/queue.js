@@ -107,17 +107,41 @@ describe("Get", function() {
   
 });
 
-describe("Init", function() {
+describe("Remove", function() {
+  var queue;
+  beforeEach(function(){
+    queue = new Queue();
+  });
 
-  it("should add jobs into the queue on init", function() {
-    var queue, arr;
-    client.lrange('roach:jobs', 0, -1, function(err, res) {
-      arr = res;
-      queue = new Queue();
-      queue.on('added', function(name, id, options) {
-        console.log(name, id, options);
+  it("should have a remove handler", function() {
+    assert(queue.remove);
+  });
+
+  it("should remove job in queue", function(done) {
+    client.lrange('roach:jobs', 0, 0, function(err, ids) {
+      queue.remove(ids[0], function(err) {
+        if(!err) done();
       });
     });
+
   });
   
 });
+
+
+// describe("Init", function() {
+
+//   it("should add jobs into the queue on init", function() {
+//     var queue, arr;
+//     client.lrange('roach:jobs', 0, -1, function(err, res) {
+//       arr = res;
+//       queue = new Queue();
+//       queue.on('added', function(name, id, options) {
+//         console.log(name, id, options);
+//       });
+//     });
+//   });
+  
+// });
+
+
