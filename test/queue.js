@@ -4,6 +4,11 @@ var Queue = require('../lib/queue'),
 
 var client = redis.createClient();
 
+function flush(cb) {
+  client.del('roach:jobs:pending', function(err) {
+    client.set('roach:jobs:id', 0, cb);
+  });
+}
 
 describe("Local", function() {
 
@@ -26,27 +31,27 @@ describe("Local", function() {
 });
 
 //Comment to test init
-// describe("Push", function() {
+describe("Push", function() {
 
-//   var queue;
-//   beforeEach(function() {
-//     queue = new Queue();
-//   });
+  var queue;
+  beforeEach(function() {
+    queue = new Queue();
+  });
 
-//   it("should have a push handler", function() {
-//     assert(queue.push);
-//   });
+  it("should have a push handler", function() {
+    assert(queue.push);
+  });
 
-//   it("should push new job id into the queue", function(done) {
-//     queue.push('weather', {
-//       type: 'haha'
-//     }).then(function(val) {
-//       //is the task id
-//       if(typeof val === 'number') done();
-//     });
-//   });
+  it("should push new job id into the queue", function(done) {
+    queue.push('weather', {
+      type: 'haha'
+    }).then(function(val) {
+      //is the task id
+      if(typeof val === 'number') done();
+    });
+  });
   
-// });
+});
 
 describe("Create", function() {
 
@@ -61,7 +66,7 @@ describe("Create", function() {
 
   it("should create a hashkey for the task", function(done) {
 
-    queue.on('added', function(name, id, options) {
+    queue.once('added', function(name, id, options) {
       client.hgetall('roach:jobs:' + id, function(err, res) {
         if(!err) done();
       });
@@ -119,7 +124,7 @@ describe("Remove", function() {
   });
 
   it("should remove job in queue", function(done) {
-    client.lrange('roach:jobs', 0, 0, function(err, ids) {
+    client.lrange('roach:jobs:pending', 0, 0, function(err, ids) {
       queue.remove(ids[0], function(err) {
         if(!err) done();
       });
@@ -130,19 +135,21 @@ describe("Remove", function() {
 });
 
 
-// describe("Init", function() {
+describe("Init", function() {
 
-//   it("should add jobs into the queue on init", function() {
-//     var queue, arr;
-//     client.lrange('roach:jobs', 0, -1, function(err, res) {
-//       arr = res;
-//       queue = new Queue();
-//       queue.on('added', function(name, id, options) {
-//         console.log(name, id, options);
-//       });
-//     });
-//   });
+
+  it("should add jobs into the queue on init", function() {
+    var queue, arr;
+    client.lrange('roach:jobs:pending', 0, -1, function(err, res) {
+      console.log(res);
+      arr = res;
+      queue = new Queue();
+      queue.on('added', function(name, id, options) {
+        console.log(name, id, options);
+      });
+    });
+  });
   
-// });
+});
 
 
