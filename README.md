@@ -17,7 +17,7 @@
 
   Make sure [`redis`](http://redis.io/topics/quickstart) is up and running. Then:
 
-    $ make test
+    $ npm test
 
   To test the command line, please create a symlink as following:
 
