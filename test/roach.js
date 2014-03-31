@@ -59,11 +59,9 @@ describe("queue pending job", function() {
 
 	it('should start job on add', function(done) {
 		job.start(function() {
-			console.log('start weather');
 			done();
 		});
 		master.use('weather', job);
-		console.log('use and add weather');
 		master.add('weather');
 	});
 	
@@ -81,7 +79,6 @@ describe('queue active job', function() {
 	it('should add job id in active job when started', function(done) {
 		job.start(function(id) {
 			client.zrank('roach:jobs:active', id, function(err, res) {
-				console.log('lindex video',arguments);
 				if(res) done();
 			});
 		});
