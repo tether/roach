@@ -86,21 +86,21 @@ describe('queue active job', function() {
 		master.add('video');
 	});
 
-	// it('should not start a job if already processed', function(done) {
-	// 	var rss = roach.job();
-	// 	var processed = false;
-	// 	job.start(function() {
-	// 		console.log('start job');
-	// 	});
-	// 	rss.start(function() {
-	// 		console.log('start rss');
-	// 		processed = true;
-	// 	});
-	// 	//job should never be executed
-	// 	master.use('rss', job);
-	// 	master.use('rss', rss);
-	// 	master.add('rss');
-	// });
+	it('should not start a job if already processed', function(done) {
+		var rss = roach.job();
+		job.start(function() {
+			console.log('hihi', arguments);
+			//done('nop');
+		});
+		rss.start(function() {
+			console.log('coucou', arguments);
+			//done();
+		});
+		//job should never be executed
+		master.use('rss', job);
+		master.use('rss', rss);
+		master.add('rss');
+	});
 
 });
 
