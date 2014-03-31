@@ -1,6 +1,6 @@
-var Queue = require('../lib/queue'),
-    assert = require('assert'),
-    redis = require('redis');
+var Queue = require('../lib/queue');
+var assert = require('assert');
+var redis = require('redis');
 
 var client = redis.createClient();
 

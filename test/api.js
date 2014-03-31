@@ -1,5 +1,5 @@
-var roach = require('..'),
-assert = require('assert');
+var roach = require('..');
+var assert = require('assert');
 
 describe("API", function() {
 
