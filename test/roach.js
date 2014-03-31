@@ -1,5 +1,6 @@
-var roach = require('..'),
-assert = require('assert');
+var roach = require('..');
+var assert = require('assert');
+var client = require('redis').createClient();
 
 describe("start job (debug purpose)", function() {
 
@@ -17,7 +18,25 @@ describe("start job (debug purpose)", function() {
 	});
 });
 
-describe("queue job", function() {
+describe("function job:", function() {
+	
+	var master;
+	beforeEach(function() {
+		master = roach();
+	});
+
+	it('should pass a job to the function', function(done) {
+		master.use('something', function(job) {
+			job.start(function() {
+				done();
+			});
+		});
+		master.add('something');
+	});
+
+});
+
+describe("queue pending job", function() {
 
 	var master, job;
 	beforeEach(function() {
@@ -47,22 +66,24 @@ describe("queue job", function() {
 	
 });
 
-describe("function job:", function() {
-	
-	var master;
+describe('queue active job', function() {
+
+	var master, job;
 	beforeEach(function() {
 		master = roach();
+		job = roach.job();
 	});
 
-	it('should pass a job to the function', function(done) {
-		master.use('something', function(job) {
-			job.start(function() {
-				done();
-			});
+	it('should add job id in active job when started', function() {
+		job.start(function() {
+			console.log('video');
+			//client.lindex('roach:jobs:active', )
 		});
-		master.add('something');
+		master.use('video', job);
+		master.add('video');
 	});
 
 });
+
 
 
