@@ -36,26 +36,6 @@ describe("function job:", function() {
 
 });
 
-describe('queue active job', function() {
-
-	var master, job;
-	beforeEach(function() {
-		master = roach();
-		job = roach.job();
-	});
-
-	it('should add job id in active job when started', function(done) {
-		job.start(function(id) {
-			client.lindex('roach:jobs:active', id, function(err, res) {
-				console.log(res);
-				if(res) done();
-			});
-		});
-		master.use('video', job);
-		master.add('video');
-	});
-
-});
 
 describe("queue pending job", function() {
 
@@ -87,6 +67,41 @@ describe("queue pending job", function() {
 	
 });
 
+
+describe('queue active job', function() {
+
+	var master, job;
+	beforeEach(function() {
+		master = roach();
+		job = roach.job();
+	});
+
+	it('should add job id in active job when started', function(done) {
+		job.start(function(id) {
+			client.lindex('roach:jobs:active', id, function(err, res) {
+				if(res) done();
+			});
+		});
+		master.use('video', job);
+		master.add('video');
+	});
+
+	it('should not start a job if already processed', function() {
+		var rss = roach.job();
+		var processed = false;
+		job.start(function() {
+			console.log('start job');
+		});
+		rss.start(function() {
+			console.log('start rss');
+			processed = true;
+		});
+		master.use('rss', job);
+		master.use('rss', rss);
+		master.add('rss');
+	});
+
+});
 
 
 
