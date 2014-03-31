@@ -26,7 +26,7 @@
     "through": "~2.3.4"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha && node utils/flush.js"
   },
   "dependencies": {
     "component-emitter": "~1.1.2",
