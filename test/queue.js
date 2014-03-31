@@ -4,16 +4,6 @@ var Queue = require('../lib/queue'),
 
 var client = redis.createClient();
 
-function flush(){
-  client.lrange('roach:jobs', 0, -1, function(err, ids) {
-    for(var l = ids.length; l--;) {
-     client.lrem('roach:jobs', 0, ids[l], function() {
-      
-     });
-    }
-    client.set('roach:jobs:id', 0);
-  });
-}
 
 describe("Local", function() {
 
@@ -21,7 +11,6 @@ describe("Local", function() {
 
     var queue;
     beforeEach(function() {
-      flush();
       queue = new Queue();
     });
 
