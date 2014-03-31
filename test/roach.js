@@ -59,9 +59,11 @@ describe("queue pending job", function() {
 
 	it('should start job on add', function(done) {
 		job.start(function() {
+			console.log('start weather');
 			done();
 		});
 		master.use('weather', job);
+		console.log('use and add weather');
 		master.add('weather');
 	});
 	
@@ -78,7 +80,8 @@ describe('queue active job', function() {
 
 	it('should add job id in active job when started', function(done) {
 		job.start(function(id) {
-			client.lindex('roach:jobs:active', id, function(err, res) {
+			client.zrank('roach:jobs:active', id, function(err, res) {
+				console.log('lindex video',arguments);
 				if(res) done();
 			});
 		});
@@ -86,20 +89,21 @@ describe('queue active job', function() {
 		master.add('video');
 	});
 
-	it('should not start a job if already processed', function() {
-		var rss = roach.job();
-		var processed = false;
-		job.start(function() {
-			console.log('start job');
-		});
-		rss.start(function() {
-			console.log('start rss');
-			processed = true;
-		});
-		master.use('rss', job);
-		master.use('rss', rss);
-		master.add('rss');
-	});
+	// it('should not start a job if already processed', function(done) {
+	// 	var rss = roach.job();
+	// 	var processed = false;
+	// 	job.start(function() {
+	// 		console.log('start job');
+	// 	});
+	// 	rss.start(function() {
+	// 		console.log('start rss');
+	// 		processed = true;
+	// 	});
+	// 	//job should never be executed
+	// 	master.use('rss', job);
+	// 	master.use('rss', rss);
+	// 	master.add('rss');
+	// });
 
 });
 
