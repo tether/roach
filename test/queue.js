@@ -135,21 +135,21 @@ describe("Remove", function() {
 });
 
 
-describe("Init", function() {
+// describe("Init", function() {
 
 
-  it("should add jobs into the queue on init", function() {
-    var queue, arr;
-    client.lrange('roach:jobs:pending', 0, -1, function(err, res) {
-      console.log(res);
-      arr = res;
-      queue = new Queue();
-      queue.on('added', function(name, id, options) {
-        console.log(name, id, options);
-      });
-    });
-  });
+//   it("should add jobs into the queue on init", function() {
+//     var queue, arr;
+//     client.lrange('roach:jobs:pending', 0, -1, function(err, res) {
+//       console.log(res);
+//       arr = res;
+//       queue = new Queue();
+//       queue.on('added', function(name, id, options) {
+//         console.log(name, id, options);
+//       });
+//     });
+//   });
   
-});
+// });
 
 
