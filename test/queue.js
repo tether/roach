@@ -124,7 +124,7 @@ describe("Remove", function() {
   });
 
   it("should remove job in queue", function(done) {
-    client.lrange('roach:jobs:pending', 0, 0, function(err, ids) {
+    client.zrange('roach:jobs:pending', 0, 0, function(err, ids) {
       queue.remove(ids[0], function(err) {
         if(!err) done();
       });
