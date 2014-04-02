@@ -1,6 +1,7 @@
 var roach = require('..');
 var assert = require('assert');
-var client = require('redis').createClient();
+var redis = require('redis');
+var client = redis.createClient();
 
 function check(db, id, done) {
 	client.zrank(db, id, function(err, res) {
@@ -38,6 +39,13 @@ describe('Lifecycle > ', function() {
 
 		describe('active', function() {
 
+			var crawler;
+			beforeEach(function() {
+				crawler = roach.job();
+				server.add('crawler');
+			});
+			
+
 			it('is added in active queue and removed from pending on start', function(done) {
 				job.start(function(id) {
 					check('roach:jobs:active', id, function() {
@@ -49,8 +57,19 @@ describe('Lifecycle > ', function() {
 				server.use('job', job);
 			});
 
-			it('send progress and log events', function() {
-
+			it('send progress and/or log events', function(done) {
+				var client = redis.createClient();
+				client.psubscribe('roach:job:*');
+				client.on('pmessage', function(pattern, channel, msg) {
+					var target = channel.split(' ');
+					if(target[1] === 'crawler' ) {
+						if(msg === 'progress 10') done();
+					}
+				});
+				crawler.start(function() {
+					crawler.progress(10, 100);
+				});
+				server.use('crawler', crawler);
 			});
 
 		});
