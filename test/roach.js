@@ -16,6 +16,7 @@ describe("start job (debug purpose)", function() {
 		});
 		master.use(job);
 	});
+	
 });
 
 describe("function job:", function() {
