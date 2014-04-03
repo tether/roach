@@ -61,10 +61,12 @@ describe('Lifecycle > ', function() {
 				var client = redis.createClient();
 				client.psubscribe('roach:job:*');
 				client.on('pmessage', function(pattern, channel, msg) {
+					console.log('PMESSAGE', channel);
 					var target = channel.split(' ');
 					if(target[1] === 'crawler' ) {
 						if(msg === 'progress 10') done();
 					}
+					client.punsubscribe('roach:job::*');
 				});
 				crawler.start(function() {
 					crawler.progress(10, 100);
@@ -76,8 +78,17 @@ describe('Lifecycle > ', function() {
 
 		describe('finished', function() {
 
+			var crawler;
+			beforeEach(function() {
+				crawler = roach.job();
+				server.add('search');
+			});
+
 			it('is removed from active queue', function() {
-				
+				crawler.start(function() {
+					crawler.stop();
+				});
+				server.use('search', crawler);
 			});
 
 		});
