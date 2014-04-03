@@ -18,6 +18,11 @@
 
     $ npm test
 
+  Flush redis database:
+
+    $ npm run flush
+
+
   To test the command line, please create a symlink as following:
 
     $ sudo npm link
