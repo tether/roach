@@ -27,7 +27,7 @@
   },
   "scripts": {
     "test": "npm run flush && mocha",
-    "flush" : "node utils/flush.js"
+    "flush": "node utils/flush.js"
   },
   "dependencies": {
     "component-emitter": "~1.1.2",
@@ -46,6 +46,7 @@
     "unzip": "~0.1.9",
     "csv-streamify": "~0.9.1",
     "trumpet": "~1.6.3",
-    "event-stream": "~3.1.1"
+    "event-stream": "~3.1.1",
+    "amqp": "=0.1.6"
   }
 }
