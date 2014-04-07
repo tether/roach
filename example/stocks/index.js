@@ -18,7 +18,8 @@ job.start(function() {
        job.data(data.toUpperCase());
     }))
     .on('end', function() {
+      console.log('STOPPPPPP');
       job.stop();
-    });
+    }).quoi();
 });
 
