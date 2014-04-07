@@ -4,6 +4,7 @@ var stream = require('stream');
 var readable = require('fs').createReadStream;
 var writable = stream.Writable;
 var transformable = stream.Transform;
+var unzip = require('unzip');
 
 describe("Mixin", function() {
 
@@ -174,26 +175,22 @@ describe("Event stream", function() {
 });
 
 
-// describe("Unzip", function() {
+describe("Unzip", function() {
 
-//   var crawler, ws;
-//   beforeEach(function() {
-//     crawler = roach.crawler();
-//     ws = transformable();
-//     //this is wrong
-//     ws._transform = function (chunk, enc, done) {
-//       console.log('hihi',chunk);
-//       done();
-//     };
-//   });
+  var crawler, ws;
+  beforeEach(function() {
+    crawler = roach.crawler();
+  });
 
-//   it('should unzip archive', function(done) {
+  it('should unzip archive', function(done) {
 
-//     crawler('file://' + __dirname + '/test.zip')
-//       .pipe(crawler.unzip())
-//       .on('data', function() {
-//         console.log('data');
-//       });
-//   });
+    crawler('file://' + __dirname + '/fixtures/test.zip')
+      .pipe(crawler.unzip())
+      .on('entry', function(entry) {
+        entry.pipe(crawler.through(function(data) {
+          if(data.toString() === 'hello') done();
+        }));
+      });
+  });
 
-// });
+});
