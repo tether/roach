@@ -1,28 +1,24 @@
 var roach = require('../..');
 
 var job = module.exports = roach.job();
+var crawler = roach.crawler();
 
 console.log('subscribe stocks');
 job.subscribe('stocks');
 
 
+var lines = 0;
+
 job.start(function() {
-	console.log('stocks start');
-	progress();
+  job.log('start stocks');
+  crawler('file://' + __dirname + '/stocks.text')
+    .pipe(crawler.split())
+    .pipe(crawler.mapSync(function(data) {
+       job.progress(lines++);
+       job.data(data.toUpperCase());
+    }))
+    .on('end', function() {
+      job.stop();
+    });
 });
 
-
-function progress() {
-	var i = 0;
-	var interval = setInterval(function() {
-		for(var j = i; j < i + 10; j++) {
-			job.data('data'+ j);
-		}
-		job.progress(i, 100);
-		i = i + 10;
-		if(i === 100) {
-			clearInterval(interval);
-	    job.stop();
-		}
-	}, 1000);
-}

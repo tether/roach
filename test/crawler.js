@@ -33,7 +33,7 @@ describe("Get file", function() {
   it("should have a http handler", function(done) {
     //can not be piped
     crawler.http('http://rawgithub.com/petrofeed/roach/master/README.md', function(err, res, body) {
-      if(!err) done();
+      done(err);
     });
   });
 

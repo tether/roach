@@ -20,7 +20,7 @@ job.on('start', function() {
 function progress() {
 	var i = 0;
 	var interval = setInterval(function() {
-		job.progress(i, 100);
+		//job.progress(i, 100);
 		i = i + 10;
 		if(i === 100) {
 			clearInterval(interval);

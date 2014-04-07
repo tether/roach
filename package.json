@@ -27,25 +27,25 @@
   },
   "scripts": {
     "test": "npm run flush && mocha",
-    "flush" : "node utils/flush.js"
+    "flush": "node utils/flush.js"
   },
   "dependencies": {
-    "component-emitter": "~1.1.2",
-    "store-component": "~0.1.5",
+    "bredele-promise": "^0.1.0",
     "commander": "1.0.5",
-    "win-fork": "~1.1.1",
+    "component-emitter": "~1.1.2",
+    "csv-streamify": "~0.9.1",
+    "datastore": "^1.0.0",
+    "emitter-queue": "~0.1.2",
+    "event-stream": "~3.1.1",
+    "express": "~3.4.8",
+    "lodash": "~2.4.1",
     "mkdirp": "~0.3.5",
     "multiline": "~0.2.0",
     "redis": "~0.10.1",
-    "express": "~3.4.8",
-    "lodash": "~2.4.1",
-    "emitter-queue": "~0.1.2",
-    "component-promise": "0.0.2",
-    "uberproto": "~1.1.1",
     "request": "~2.34.0",
-    "unzip": "~0.1.9",
-    "csv-streamify": "~0.9.1",
     "trumpet": "~1.6.3",
-    "event-stream": "~3.1.1"
+    "uberproto": "~1.1.1",
+    "unzip": "~0.1.9",
+    "win-fork": "~1.1.1"
   }
 }
