@@ -61,7 +61,6 @@ describe('Lifecycle > ', function() {
 				var client = redis.createClient();
 				client.psubscribe('roach:job:*');
 				client.on('pmessage', function(pattern, channel, msg) {
-					console.log('PMESSAGE', channel);
 					var target = channel.split(' ');
 					if(target[1] === 'crawler' ) {
 						if(msg === 'progress 10') done();

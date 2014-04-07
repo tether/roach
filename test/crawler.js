@@ -18,6 +18,7 @@ describe("Mixin", function() {
 
 });
 
+
 describe("Get file", function() {
 
   var crawler, ws;
@@ -58,6 +59,19 @@ describe("Get file", function() {
   });
 
 });
+
+// describe('Custom steps', function() {
+
+//   var crawler;
+//   beforeEach(function() {
+//     crawler = roach.crawler();
+//   });
+
+//   it('should have a step handler', function() {
+//     assert(crawler.step);
+//   });
+
+// });
 
 describe("CSV", function() {
 
