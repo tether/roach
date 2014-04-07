@@ -10,6 +10,7 @@ console.log(process.title);
 //fork doesn't work, why?
 // var proc = spawn('./stocks');
 
+app.transport('rabbit');
 app.use('weather', require('./weather'));
 app.use('stocks');
 
