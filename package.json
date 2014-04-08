@@ -30,6 +30,7 @@
     "flush": "node utils/flush.js"
   },
   "dependencies": {
+    "amqp": "=0.1.6",
     "bredele-promise": "^0.1.0",
     "commander": "1.0.5",
     "component-emitter": "~1.1.2",
@@ -47,7 +48,7 @@
     "uberproto": "~1.1.1",
     "unzip": "~0.1.9",
     "win-fork": "~1.1.1",
-    "amqp": "=0.1.6"
-
+    "xlsjs": "^0.6.16",
+    "xlsx": "^0.5.17"
   }
 }

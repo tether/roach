@@ -177,7 +177,7 @@ describe("Event stream", function() {
 
 describe("Unzip", function() {
 
-  var crawler, ws;
+  var crawler;
   beforeEach(function() {
     crawler = roach.crawler();
   });
@@ -193,4 +193,29 @@ describe("Unzip", function() {
       });
   });
 
+});
+
+describe('XLS', function() {
+  var crawler;
+  beforeEach(function() {
+    crawler = roach.crawler();
+  });
+
+  it('should parse xls', function(done) {
+
+    crawler('file://' + __dirname + '/fixtures/roach.xls')
+      .pipe(crawler.xls())
+      .pipe(crawler.through(function(data) {
+        done();
+      }))
+  });
+
+  it('should parse xlsx', function(done) {
+
+    crawler('file://' + __dirname + '/fixtures/roach.xlsx')
+      .pipe(crawler.xlsx())
+      .pipe(crawler.through(function(data) {
+        done();
+      }))
+  });
 });
