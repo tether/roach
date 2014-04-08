@@ -131,4 +131,16 @@ crawler(/* url */)
 
 ```
 
+### .unzip()
+
+ Unzop archive and steam entries.
+
+```js
+crawler(/* url */)
+  .pipe(crawler.unzip())
+  .on('entry', function(entry) {
+    //entry is a stream
+  });
+
+```
 
