@@ -34,3 +34,19 @@ dir_name
   -> index.js
     -> steps
 ```
+
+## Run
+
+ Scan folder (looking for jobs) and start roach server:
+
+```
+Usage: roach run
+
+Examples:
+
+  # run roach server:
+  $ roach run
+  
+```
+
+ > alias : `roach-run`
