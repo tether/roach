@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-var program = require('commander'),
-		path = require('path'),
-		resolve = path.resolve,
-		join = path.join,
-		fs = require('fs'),
-		spawn = require('win-fork'),
-		exists = fs.existsSync;
+var program = require('commander');
+var path = require('path');
+var resolve = path.resolve;
+var join = path.join;
+var fs = require('fs');
+var spawn = require('win-fork');
+var exists = fs.existsSync;
 
 /**
  * Usage.
@@ -54,7 +54,7 @@ var bin = 'roach-' + cmd;
 var local = join(__dirname, bin);
 
 
-function spawnCmd() {
+function spawnCmd(conf) {
 
   if (exists(local)) {
     bin = local;
@@ -73,8 +73,7 @@ function spawnCmd() {
   }
 
   // spawn
-
-  var proc = spawn(bin, args, { stdio: 'inherit', customFds: [0, 1, 2] });
+  var proc = spawn(bin, conf ? [conf] : [], { stdio: 'inherit', customFds: [0, 1, 2] });
 
   proc.on('close', function(code){
     process.exit(code);
@@ -94,10 +93,9 @@ if(program.redis) {
 
   program.prompt(prompt, function(obj){
     var conf = {};
-    obj.port = obj.port || 6379;
-    conf.host = obj.host || '127.0.0.1'
-    console.log(conf);
-    spawnCmd();
+    conf.port = obj.port || 6379;
+    conf.host = obj.host || '127.0.0.1';
+    spawnCmd(JSON.stringify(conf));
   });
 
 } else {

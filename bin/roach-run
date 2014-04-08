@@ -4,7 +4,11 @@
  * Module dependencies.
  */
 
-var Roach = require('..'),
-		path = require('path');
+var roach = require('..');
+var path = require('path');
 
-Roach().scan(path.resolve('.'));
+var conf = process.argv.slice(2)[0];
+if(conf) conf = JSON.parse(conf);
+
+roach(conf)
+  .scan(path.resolve('.'));
