@@ -23,6 +23,7 @@ crawler('http://domain/file.json')
 ### utils
 
  `crawler` is a toolkit to make creating and working with streams easy. It contains multiples utils such as:
+   - end (alias for on('end'))
    - split
    - join
    - parse

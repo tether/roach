@@ -4,16 +4,16 @@ var client = require('redis').createClient();
 
 //add jobs in queue
 
-//app.transport('rabbit');
-app.use('weather', require('./weather'));
-app.use('stocks');
+app.add('weather', {city:'calgary'});
+app.add('stocks');
 
 
 //process jobs as soon as possible
 
-app.add('weather', {city:'calgary'});
-app.add('stocks');
 
+//app.transport('rabbit');
+app.use('weather', require('./weather'));
+app.use('stocks');
 
 
 client.psubscribe("roach:job:*");
