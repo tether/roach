@@ -26,6 +26,7 @@ program.on('--help', function () {
   console.log('  Commands:');
   console.log();
   console.log('    create [dir]            create a roach bug');
+  console.log('    run            scan folder and looking for jobs');  
   console.log();
 });
 
