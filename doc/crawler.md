@@ -134,7 +134,7 @@ crawler(/* url */)
 
 ### .unzip()
 
- Unzop archive and steam entries.
+ Unzip archive and steam entries.
 
 ```js
 crawler(/* url */)
@@ -144,4 +144,29 @@ crawler(/* url */)
   });
 
 ```
+
+### .xls()
+
+ Read and parse xls file. See [sheet](https://github.com/SheetJS) for more details.
+
+```js
+crawler(/* url */)
+  .pipe(crawler.xls())
+  .pipe(crawler.through(function(data) {
+    //so something on data
+  }));
+
+```
+
+
+### .xlsx()
+
+ Read and parse xlsx file.
+
+```js
+crawler(/* url */)
+  .pipe(crawler.xlsx());
+
+```
+
 
