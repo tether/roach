@@ -27,6 +27,15 @@
 
     $ sudo npm link
 
+## Debug mode
+
+  You can run a roach server in debug mode as following:
+
+
+```
+DEBUG=* node server.js 
+```
+
 ## Documentation
 
   - [roach](./doc/server.md)
