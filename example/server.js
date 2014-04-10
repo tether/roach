@@ -14,9 +14,3 @@ app.add('stocks');
 app.transport('rabbit');
 app.use('weather', require('./weather'));
 app.use('stocks');
-
-
-client.psubscribe("roach:job:*");
-client.on("pmessage", function (pattern, channel, message) {
-	console.log(pattern, channel, message);
-});

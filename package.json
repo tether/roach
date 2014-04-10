@@ -17,7 +17,8 @@
   },
   "bin": {
     "roach": "bin/roach",
-    "roach-create": "bin/roach-create"
+    "roach-create": "bin/roach-create",
+    "roach-run": "bin/roach-run"
   },
   "main": "index.js",
   "devDependencies": {
@@ -37,6 +38,7 @@
     "component-emitter": "~1.1.2",
     "csv-streamify": "~0.9.1",
     "datastore": "^1.0.0",
+    "debug": "^0.8.0",
     "emitter-queue": "~0.1.2",
     "event-stream": "~3.1.1",
     "express": "~3.4.8",
