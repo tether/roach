@@ -14,6 +14,7 @@ var program = require('commander'),
 		mkdir = require('mkdirp').sync,
 		multiline = require('multiline');
 
+
 //log fatal
 
 function error(msg){
@@ -24,12 +25,14 @@ function error(msg){
   console.error('  \033[31m%s\033[m : \033[90m%s\033[m', pad + type, msg);
 }
 
+
 function fatal(){
   console.error();
   error.apply(null, arguments);
   console.error();
   process.exit(1);
 }
+
 
 function log(type, msg, color){
   color = color || '36';
