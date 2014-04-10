@@ -34,6 +34,13 @@ var job = module.exports = roach.job();
 
  It is important to export the job in order to be used by roach. However, a job can run in a separate process and communicate with a roach server.
 
+```js
+var separate = roach.job();
+//subscribe to roach events as 'myjob'
+separate.subscribe('myjob');
+```
+
+**Note:** a job has to subscribe to roach events if it is running on a separate process. See [example](https://github.com/PetroFeed/roach2/blob/master/example/stocks).
 
 ### .emit(topic) and .on(topic)
 
@@ -65,7 +72,7 @@ All the `_publish` commands are queued until the job is initialized by roach and
 
 ### .config(name, data)
 
- Set/Get a config attribute. This config will be use by roach to initialize the job.
+ Set/Get a config attribute.
 
 
 ```js

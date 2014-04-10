@@ -27,10 +27,18 @@
 
     $ sudo npm link
 
+## Example
+
+```
+npm run example
+```
+ 
+ The example is located in `example` and run the job `stocks` in a separate process. It uses rabbitmq as a transport layer.
+
+
 ## Debug mode
 
   You can run a roach server in debug mode as following:
-
 
 ```
 DEBUG=* node server.js 

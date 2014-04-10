@@ -13,7 +13,9 @@ var job = module.exports = roach.job();
 
 
 job.on('start', function() {
-  progress();
+  setTimeout(function() {
+    progress();
+  }, 2000);
 });
 
 function progress() {
