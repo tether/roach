@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>job.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="api.html">
+                api.js
+              </a>
+            
+              
+              <a class="source" href="crawler.html">
+                crawler.js
+              </a>
+            
+              
+              <a class="source" href="job.html">
+                job.js
+              </a>
+            
+              
+              <a class="source" href="lifecycle.html">
+                lifecycle.js
+              </a>
+            
+              
+              <a class="source" href="queue.html">
+                queue.js
+              </a>
+            
+              
+              <a class="source" href="roach.html">
+                roach.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>job.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">var</span> roach = require(<span class="string">'..'</span>);
+<span class="keyword">var</span> assert = require(<span class="string">'assert'</span>);
+
+describe(<span class="string">'job'</span>, <span class="keyword">function</span>() {
+
+	describe(<span class="string">".config(...)"</span>, <span class="keyword">function</span>() {
+
+		<span class="keyword">var</span> job;
+		beforeEach(<span class="keyword">function</span>() {
+			job = roach.job();
+		});
+		
+		it(<span class="string">'should set and get config'</span>, <span class="keyword">function</span>() {
+			job.config(<span class="string">'type'</span>, <span class="string">'web'</span>);
+			assert.equal(job.config(<span class="string">'type'</span>), <span class="string">'web'</span>);
+		});
+
+		it(<span class="string">'should merge config'</span>, <span class="keyword">function</span>() {
+			job.config(<span class="string">'type'</span>, <span class="string">'web'</span>);
+			job.config({
+				type: <span class="string">'ftp'</span>,
+				name: <span class="string">'get release notes'</span>
+			});
+
+			assert.equal(job.config(<span class="string">'type'</span>), <span class="string">'ftp'</span>);
+			assert.equal(job.config(<span class="string">'name'</span>), <span class="string">'get release notes'</span>);				
+		});
+
+		it(<span class="string">'returns the config'</span>, <span class="keyword">function</span>() {
+			job.config({
+				name: <span class="string">'weather'</span>,
+				type: <span class="string">'http'</span>
+			});
+			assert.deepEqual(job.config(), {
+				name: <span class="string">'weather'</span>,
+				type: <span class="string">'http'</span>
+			});
+		});
+
+		describe(<span class="string">"# observable"</span>, <span class="keyword">function</span>() {
+
+			it(<span class="string">'should listen for changes in config'</span>, <span class="keyword">function</span>(done) {
+				job.sandbox.on(<span class="string">'change type'</span>, <span class="keyword">function</span>() {
+					done();
+				});
+				job.config(<span class="string">'type'</span>, <span class="string">'web'</span>);
+			});
+
+		});
+		
+
+	});
+
+	describe(<span class="string">".progress(...)"</span>, <span class="keyword">function</span>() {
+
+		<span class="keyword">var</span> job;
+		beforeEach(<span class="keyword">function</span>() {
+			job = roach.job();
+		});
+
+		it(<span class="string">"should have a progress handler"</span>, <span class="keyword">function</span>() {
+			assert.equal(<span class="keyword">typeof</span> job.progress, <span class="string">'function'</span>);
+		});
+
+		it(<span class="string">'should emit progress message'</span>, <span class="keyword">function</span>(done) {
+			job.on(<span class="string">'progress'</span>, <span class="keyword">function</span>() {
+				done();
+			});
+			job.progress();
+		});
+
+		it(<span class="string">'should emit how complete it is'</span>, <span class="keyword">function</span>(done) {
+			job.on(<span class="string">'progress'</span>, <span class="keyword">function</span>(val) {
+				<span class="keyword">if</span>(val === <span class="number">10</span>) done();
+			});
+			job.progress(<span class="number">10</span>);
+		});
+
+		it(<span class="string">'should emit how complete it is relative to total'</span>, <span class="keyword">function</span>(done) {
+			job.on(<span class="string">'progress'</span>, <span class="keyword">function</span>(val) {
+				<span class="keyword">if</span>(val === <span class="number">10</span>) done();
+			});
+			job.progress(<span class="number">13</span>, <span class="number">120</span>);
+		});
+		
+	});
+
+	describe(<span class="string">".log(...)"</span>, <span class="keyword">function</span>() {
+		
+		<span class="keyword">var</span> job;
+		beforeEach(<span class="keyword">function</span>() {
+			job = roach.job();
+		});
+
+		it(<span class="string">'should have a log handler'</span>, <span class="keyword">function</span>() {
+			assert.equal(<span class="keyword">typeof</span> job.log, <span class="string">'function'</span>);
+		});
+
+
+		it(<span class="string">'should emit message log'</span>, <span class="keyword">function</span>(done) {
+			job.on(<span class="string">'log'</span>, <span class="keyword">function</span>(msg) {
+				<span class="keyword">if</span>(msg === <span class="string">'test'</span>) done();
+			});
+			job.log(<span class="string">'test'</span>);
+		});
+
+		it(<span class="string">'should not emit a log event if message empty'</span>, <span class="keyword">function</span>() {
+			<span class="keyword">var</span> called = <span class="literal">false</span>;
+			job.on(<span class="string">'log'</span>, <span class="keyword">function</span>() {
+				called = <span class="literal">true</span>;
+			});
+			job.log();
+			assert.equal(called, <span class="literal">false</span>);
+		});
+
+		it(<span class="string">'should have a sprintf style'</span>, <span class="keyword">function</span>(done) {
+			job.on(<span class="string">'log'</span>, <span class="keyword">function</span>(msg) {
+				<span class="keyword">if</span>(msg === <span class="string">'test roach'</span>) done();
+			});
+			job.log(<span class="string">'test %s'</span>, <span class="string">'roach'</span>);
+		});
+
+		it(<span class="string">'should have a array-like style'</span>, <span class="keyword">function</span>(done) {
+			job.on(<span class="string">'log'</span>, <span class="keyword">function</span>(msg) {
+				<span class="keyword">if</span>(msg === <span class="string">'test jobs roach'</span>) done();
+			});
+			job.log(<span class="string">'test %1 %0'</span>, <span class="string">'roach'</span>, <span class="string">'jobs'</span>);
+		});
+
+	});
+
+
+	describe(<span class="string">".data(...)"</span>, <span class="keyword">function</span>() {
+
+		<span class="keyword">var</span> job;
+		beforeEach(<span class="keyword">function</span>() {
+			job = roach.job();
+		});
+
+		it(<span class="string">"should queued data events"</span>, <span class="keyword">function</span>(done) {
+			job.data(<span class="string">'other'</span>);
+			job.on(<span class="string">'_data'</span>, <span class="keyword">function</span>(val) {
+				<span class="keyword">if</span>(val === <span class="string">'other'</span>) done();
+			});
+		});
+
+	});
+
+	describe(<span class="string">"# hooks"</span>, <span class="keyword">function</span>() {
+		
+		<span class="keyword">var</span> job;
+		beforeEach(<span class="keyword">function</span>() {
+			job = roach.job();
+		});
+
+		describe(<span class="string">"start"</span>, <span class="keyword">function</span>() {
+			
+			it(<span class="string">'should have a start handler'</span>, <span class="keyword">function</span>() {
+				assert.equal(<span class="keyword">typeof</span> job.start, <span class="string">'function'</span>);
+			});
+
+			it(<span class="string">'should execute start on start command'</span>, <span class="keyword">function</span>(done) {
+				job.start(<span class="keyword">function</span>() {
+					done();
+				});
+				job.emit(<span class="string">'start'</span>);
+			});
+
+		});
+
+		describe(<span class="string">'stop'</span>, <span class="keyword">function</span>() {
+
+			it(<span class="string">'should have a stop handler'</span>, <span class="keyword">function</span>() {
+				assert.equal(<span class="keyword">typeof</span> job.stop, <span class="string">'function'</span>);
+			});
+
+			it(<span class="string">'should emit a stop command'</span>, <span class="keyword">function</span>(done) {
+				job.on(<span class="string">'stop'</span>, <span class="keyword">function</span>() {
+					done();
+				});
+				job.stop(); <span class="comment">//hammer time</span>
+			});
+
+		});
+		
+	});
+
+});</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

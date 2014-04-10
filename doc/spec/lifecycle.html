@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>lifecycle.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="api.html">
+                api.js
+              </a>
+            
+              
+              <a class="source" href="crawler.html">
+                crawler.js
+              </a>
+            
+              
+              <a class="source" href="job.html">
+                job.js
+              </a>
+            
+              
+              <a class="source" href="lifecycle.html">
+                lifecycle.js
+              </a>
+            
+              
+              <a class="source" href="queue.html">
+                queue.js
+              </a>
+            
+              
+              <a class="source" href="roach.html">
+                roach.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>lifecycle.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">var</span> roach = require(<span class="string">'..'</span>);
+<span class="keyword">var</span> assert = require(<span class="string">'assert'</span>);
+<span class="keyword">var</span> redis = require(<span class="string">'redis'</span>);
+<span class="keyword">var</span> client = redis.createClient();
+
+<span class="function"><span class="keyword">function</span> <span class="title">check</span><span class="params">(db, id, done)</span> {</span>
+	client.zrank(db, id, <span class="keyword">function</span>(err, res) {
+		<span class="keyword">if</span>(!err) done();
+	});
+}
+
+describe(<span class="string">'Lifecycle &gt; '</span>, <span class="keyword">function</span>() {
+
+	<span class="keyword">var</span> server, queue;
+	beforeEach(<span class="keyword">function</span>() {
+		server = roach();
+		queue = server.queue;
+	});
+	
+
+	describe(<span class="string">'job'</span>, <span class="keyword">function</span>() {
+
+		<span class="keyword">var</span> job;
+		beforeEach(<span class="keyword">function</span>() {
+			job = roach.job();
+			server.add(<span class="string">'job'</span>);
+		});
+
+		describe(<span class="string">'pending &gt; '</span>, <span class="keyword">function</span>() {
+
+			it(<span class="string">'is added in the pending queue'</span>, <span class="keyword">function</span>(done) {
+				queue.on(<span class="string">'added job'</span>, <span class="keyword">function</span>(id) {
+					check(<span class="string">'roach:jobs:pending'</span>, id, done);
+				});
+			});
+
+		});
+
+		describe(<span class="string">'active'</span>, <span class="keyword">function</span>() {
+
+			<span class="keyword">var</span> crawler;
+			beforeEach(<span class="keyword">function</span>() {
+				crawler = roach.job();
+				server.add(<span class="string">'crawler'</span>);
+			});
+			
+
+			it(<span class="string">'is added in active queue and removed from pending on start'</span>, <span class="keyword">function</span>(done) {
+				job.start(<span class="keyword">function</span>(id) {
+					check(<span class="string">'roach:jobs:active'</span>, id, <span class="keyword">function</span>() {
+						client.zrank(<span class="string">'roach:jobs:pending'</span>, id, <span class="keyword">function</span>(err, res) {
+							<span class="keyword">if</span>(!err &amp;&amp; !res) done();
+						});
+					});
+				});
+				server.use(<span class="string">'job'</span>, job);
+			});
+
+			it(<span class="string">'send progress and/or log events'</span>, <span class="keyword">function</span>(done) {
+				<span class="keyword">var</span> client = redis.createClient();
+				client.psubscribe(<span class="string">'roach:job:*'</span>);
+				client.on(<span class="string">'pmessage'</span>, <span class="keyword">function</span>(pattern, channel, msg) {
+					<span class="keyword">var</span> target = channel.split(<span class="string">' '</span>);
+					<span class="keyword">if</span>(target[<span class="number">1</span>] === <span class="string">'crawler'</span> ) {
+						<span class="keyword">if</span>(msg === <span class="string">'progress 10'</span>) done();
+					}
+					client.punsubscribe(<span class="string">'roach:job::*'</span>);
+				});
+				crawler.start(<span class="keyword">function</span>() {
+					crawler.progress(<span class="number">10</span>, <span class="number">100</span>);
+				});
+				server.use(<span class="string">'crawler'</span>, crawler);
+			});
+
+		});
+
+		describe(<span class="string">'finished'</span>, <span class="keyword">function</span>() {
+
+			<span class="keyword">var</span> crawler;
+			beforeEach(<span class="keyword">function</span>() {
+				crawler = roach.job();
+				server.add(<span class="string">'search'</span>);
+			});
+
+			it(<span class="string">'is removed from active queue'</span>, <span class="keyword">function</span>() {
+				crawler.start(<span class="keyword">function</span>() {
+					crawler.stop();
+				});
+				server.use(<span class="string">'search'</span>, crawler);
+			});
+
+		});
+		
+	});
+	
+});</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

@@ -4,21 +4,21 @@ var redis = require('redis');
 
 var client = redis.createClient();
 
-function flush(cb) {
-  client.del('roach:jobs:pending', function(err) {
-    client.set('roach:jobs:id', 0, cb);
-  });
-}
+describe('queue', function() {
 
-describe("Local", function() {
-
-  describe("Add", function() {
+  describe(".add(...)", function() {
 
     var queue;
     beforeEach(function() {
       queue = new Queue();
     });
 
+    // `queue` is based on [emitter-queue](http://github.com/bredele/emitter-queue)
+    // in order to run a job asynchronously. 
+    // 
+    // An event `added` is queued once a job has been 
+    // added into the pending queue. It means you can subscribe to this
+    // event after it has been fired and the callback will still be executed.
     it("should queue events", function(done) {
       queue.add('event');
       queue.on('added event', function(val) {
@@ -27,129 +27,119 @@ describe("Local", function() {
     });
     
   });
-  
-});
 
-//Comment to test init
-describe("Push", function() {
 
-  var queue;
-  beforeEach(function() {
-    queue = new Queue();
-  });
+  // `push` is a **private** function which increment
+  // the job id into redis and push task into the
+  // pending queue.
+  describe(".push(...)", function() {
 
-  it("should have a push handler", function() {
-    assert(queue.push);
-  });
-
-  it("should push new job id into the queue", function(done) {
-    queue.push('weather', {
-      type: 'haha'
-    }).then(function(val) {
-      //is the task id
-      if(typeof val === 'number') done();
+    var queue;
+    beforeEach(function() {
+      queue = new Queue();
     });
-  });
-  
-});
 
-describe("Create", function() {
+    it("should have a push handler", function() {
+      assert(queue.push);
+    });
 
-  var queue;
-  beforeEach(function() {
-    queue = new Queue();
-  });
-
-  it("should have a create handler", function() {
-    assert(queue.create);
-  });
-
-  it("should create a hashkey for the task", function(done) {
-
-    queue.once('added', function(name, id, options) {
-      client.hgetall('roach:jobs:' + id, function(err, res) {
-        if(!err) done();
+    it("should push new job id into the queue", function(done) {
+      queue.push('weather', {
+        type: 'haha'
+      }).then(function(val) {
+        if(typeof val === 'number') done();
       });
     });
+    
+  });
 
-    queue.add('weather', {
-      city: 'calgary',
-      time: 'morning'
+  // `create` is a **private** function which 
+  // creates a redis hash field with passed options.
+  describe(".create(...)", function() {
+
+    var queue;
+    beforeEach(function() {
+      queue = new Queue();
     });
 
-  });
-  
-});
+    it("should have a create handler", function() {
+      assert(queue.create);
+    });
 
-describe("Get", function() {
+    it("should create a hashkey for the task", function(done) {
+      queue.once('added', function(name, id, options) {
+        client.hgetall('roach:jobs:' + id, function(err, res) {
+          if(!err) done();
+        });
+      });
 
-  var queue;
-  beforeEach(function(){
-    queue = new Queue();
-  });
-
-  it("should have a get handler", function() {
-    assert(queue.get);
-  });
-
-  it("sould return a promise with the job hashkey as value", function(done) {
-
-    queue.on('added', function(name, id) {
-      queue.get(id).then(function(value) {
-        done(assert.deepEqual(value, {
-          name: 'stock',
-          currency: 'dollars',
-          company: 'apple'
-        }));
+      queue.add('weather', {
+        city: 'calgary',
+        time: 'morning'
       });
     });
+    
+  });
 
-    queue.add('stock', {
-      currency: 'dollars',
-      company: 'apple'
+  // `get` is a **private** function which 
+  // get all the stored hash keys for a given
+  // job id.
+  describe(".get(...)", function() {
+
+    var queue;
+    beforeEach(function(){
+      queue = new Queue();
     });
-  });
-  
-  
-});
 
-describe("Remove", function() {
-  var queue;
-  beforeEach(function(){
-    queue = new Queue();
-  });
+    it("should have a get handler", function() {
+      assert(queue.get);
+    });
 
-  it("should have a remove handler", function() {
-    assert(queue.remove);
-  });
+    it("sould return a promise with the job hashkey as value", function(done) {
+      queue.on('added', function(name, id) {
+        queue.get(id).then(function(value) {
+          // the job's type (or name) is merged
+          // with the options into the hash field.
+          done(assert.deepEqual(value, {
+            name: 'stock',
+            currency: 'dollars',
+            company: 'apple'
+          }));
+        });
+      });
 
-  it("should remove job in queue", function(done) {
-    client.zrange('roach:jobs:pending', 0, 0, function(err, ids) {
-      queue.remove(ids[0], function(err) {
-        if(!err) done();
+      queue.add('stock', {
+        currency: 'dollars',
+        company: 'apple'
       });
     });
-
+    
+    
   });
-  
+
+  // removes job from active queue. It also
+  // try to remove a job from pending queue
+  // just to be sure there is no 'garbage'.
+  describe(".remove(...)", function() {
+    var queue;
+    beforeEach(function(){
+      queue = new Queue();
+    });
+
+    it("should have a remove handler", function() {
+      assert(queue.remove);
+    });
+
+    it("should remove job in queue", function(done) {
+      // all queues in roach are sorted because we
+      // need to get the index of a specifid job into a queue (remove).
+      client.zrange('roach:jobs:pending', 0, 0, function(err, ids) {
+        queue.remove(ids[0], function(err) {
+          if(!err) done();
+        });
+      });
+    });
+    
+  });
+
 });
-
-
-// describe("Init", function() {
-
-
-//   it("should add jobs into the queue on init", function() {
-//     var queue, arr;
-//     client.lrange('roach:jobs:pending', 0, -1, function(err, res) {
-//       console.log(res);
-//       arr = res;
-//       queue = new Queue();
-//       queue.on('added', function(name, id, options) {
-//         console.log(name, id, options);
-//       });
-//     });
-//   });
-  
-// });
-
-

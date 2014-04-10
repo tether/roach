@@ -9,7 +9,6 @@ function check(db, id, done) {
 	});
 }
 
-//verbose tests
 describe('Lifecycle > ', function() {
 
 	var server, queue;

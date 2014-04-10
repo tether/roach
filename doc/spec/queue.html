@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>queue.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="api.html">
+                api.js
+              </a>
+            
+              
+              <a class="source" href="crawler.html">
+                crawler.js
+              </a>
+            
+              
+              <a class="source" href="job.html">
+                job.js
+              </a>
+            
+              
+              <a class="source" href="lifecycle.html">
+                lifecycle.js
+              </a>
+            
+              
+              <a class="source" href="queue.html">
+                queue.js
+              </a>
+            
+              
+              <a class="source" href="roach.html">
+                roach.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>queue.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">var</span> Queue = require(<span class="string">'../lib/queue'</span>);
+<span class="keyword">var</span> assert = require(<span class="string">'assert'</span>);
+<span class="keyword">var</span> redis = require(<span class="string">'redis'</span>);
+
+<span class="keyword">var</span> client = redis.createClient();
+
+describe(<span class="string">'queue'</span>, <span class="keyword">function</span>() {
+
+  describe(<span class="string">".add(...)"</span>, <span class="keyword">function</span>() {
+
+    <span class="keyword">var</span> queue;
+    beforeEach(<span class="keyword">function</span>() {
+      queue = <span class="keyword">new</span> Queue();
+    });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p><code>queue</code> is based on <a href="http://github.com/bredele/emitter-queue">emitter-queue</a>
+in order to run a job asynchronously. </p>
+<p>An event <code>added</code> is queued once a job has been 
+added into the pending queue. It means you can subscribe to this
+event after it has been fired and the callback will still be executed.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    it(<span class="string">"should queue events"</span>, <span class="keyword">function</span>(done) {
+      queue.add(<span class="string">'event'</span>);
+      queue.on(<span class="string">'added event'</span>, <span class="keyword">function</span>(val) {
+        done();
+      });
+    });
+    
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p><code>push</code> is a <strong>private</strong> function which increment
+the job id into redis and push task into the
+pending queue.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  describe(<span class="string">".push(...)"</span>, <span class="keyword">function</span>() {
+
+    <span class="keyword">var</span> queue;
+    beforeEach(<span class="keyword">function</span>() {
+      queue = <span class="keyword">new</span> Queue();
+    });
+
+    it(<span class="string">"should have a push handler"</span>, <span class="keyword">function</span>() {
+      assert(queue.push);
+    });
+
+    it(<span class="string">"should push new job id into the queue"</span>, <span class="keyword">function</span>(done) {
+      queue.push(<span class="string">'weather'</span>, {
+        type: <span class="string">'haha'</span>
+      }).then(<span class="keyword">function</span>(val) {
+        <span class="keyword">if</span>(<span class="keyword">typeof</span> val === <span class="string">'number'</span>) done();
+      });
+    });
+    
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p><code>create</code> is a <strong>private</strong> function which 
+creates a redis hash field with passed options.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  describe(<span class="string">".create(...)"</span>, <span class="keyword">function</span>() {
+
+    <span class="keyword">var</span> queue;
+    beforeEach(<span class="keyword">function</span>() {
+      queue = <span class="keyword">new</span> Queue();
+    });
+
+    it(<span class="string">"should have a create handler"</span>, <span class="keyword">function</span>() {
+      assert(queue.create);
+    });
+
+    it(<span class="string">"should create a hashkey for the task"</span>, <span class="keyword">function</span>(done) {
+      queue.once(<span class="string">'added'</span>, <span class="keyword">function</span>(name, id, options) {
+        client.hgetall(<span class="string">'roach:jobs:'</span> + id, <span class="keyword">function</span>(err, res) {
+          <span class="keyword">if</span>(!err) done();
+        });
+      });
+
+      queue.add(<span class="string">'weather'</span>, {
+        city: <span class="string">'calgary'</span>,
+        time: <span class="string">'morning'</span>
+      });
+    });
+    
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p><code>get</code> is a <strong>private</strong> function which 
+get all the stored hash keys for a given
+job id.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  describe(<span class="string">".get(...)"</span>, <span class="keyword">function</span>() {
+
+    <span class="keyword">var</span> queue;
+    beforeEach(<span class="keyword">function</span>(){
+      queue = <span class="keyword">new</span> Queue();
+    });
+
+    it(<span class="string">"should have a get handler"</span>, <span class="keyword">function</span>() {
+      assert(queue.get);
+    });
+
+    it(<span class="string">"sould return a promise with the job hashkey as value"</span>, <span class="keyword">function</span>(done) {
+      queue.on(<span class="string">'added'</span>, <span class="keyword">function</span>(name, id) {
+        queue.get(id).then(<span class="keyword">function</span>(value) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>the job&#39;s type (or name) is merged
+with the options into the hash field.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          done(assert.deepEqual(value, {
+            name: <span class="string">'stock'</span>,
+            currency: <span class="string">'dollars'</span>,
+            company: <span class="string">'apple'</span>
+          }));
+        });
+      });
+
+      queue.add(<span class="string">'stock'</span>, {
+        currency: <span class="string">'dollars'</span>,
+        company: <span class="string">'apple'</span>
+      });
+    });
+    
+    
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>removes job from active queue. It also
+try to remove a job from pending queue
+just to be sure there is no &#39;garbage&#39;.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  describe(<span class="string">".remove(...)"</span>, <span class="keyword">function</span>() {
+    <span class="keyword">var</span> queue;
+    beforeEach(<span class="keyword">function</span>(){
+      queue = <span class="keyword">new</span> Queue();
+    });
+
+    it(<span class="string">"should have a remove handler"</span>, <span class="keyword">function</span>() {
+      assert(queue.remove);
+    });
+
+    it(<span class="string">"should remove job in queue"</span>, <span class="keyword">function</span>(done) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>all queues in roach are sorted because we
+need to get the index of a specifid job into a queue (remove).</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      client.zrange(<span class="string">'roach:jobs:pending'</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="keyword">function</span>(err, ids) {
+        queue.remove(ids[<span class="number">0</span>], <span class="keyword">function</span>(err) {
+          <span class="keyword">if</span>(!err) done();
+        });
+      });
+    });
+    
+  });
+
+});</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

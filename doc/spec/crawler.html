@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>crawler.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="api.html">
+                api.js
+              </a>
+            
+              
+              <a class="source" href="crawler.html">
+                crawler.js
+              </a>
+            
+              
+              <a class="source" href="job.html">
+                job.js
+              </a>
+            
+              
+              <a class="source" href="lifecycle.html">
+                lifecycle.js
+              </a>
+            
+              
+              <a class="source" href="queue.html">
+                queue.js
+              </a>
+            
+              
+              <a class="source" href="roach.html">
+                roach.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>crawler.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">var</span> roach = require(<span class="string">'..'</span>);
+<span class="keyword">var</span> assert = require(<span class="string">'assert'</span>);
+<span class="keyword">var</span> stream = require(<span class="string">'stream'</span>);
+<span class="keyword">var</span> writable = stream.Writable;
+
+
+describe(<span class="string">'crawler'</span>, <span class="keyword">function</span>() {
+
+  describe(<span class="string">"# mixin"</span>, <span class="keyword">function</span>() {
+
+    it(<span class="string">"should mixin object"</span>, <span class="keyword">function</span>() {
+      <span class="keyword">var</span> crawler = roach.crawler({
+        custom:<span class="keyword">function</span>() {
+
+        }
+      });
+      assert(crawler.custom);
+    });
+
+  });
+
+
+  describe(<span class="string">".get(...)"</span>, <span class="keyword">function</span>() {
+
+    <span class="keyword">var</span> crawler, ws;
+    beforeEach(<span class="keyword">function</span>() {
+      crawler = roach.crawler();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>All the crawler&#39;s handlers return a stream
+and we need to pipe it in order to test the
+result output.</p>
+<p><code>_write</code> is part of the new stream API of nodejs.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      ws = writable();
+      ws._write = <span class="function"><span class="keyword">function</span> <span class="params">(chunk, enc, next)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>will call the <code>done</code> callback.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        next();
+      };
+    });
+
+    it(<span class="string">"should have a http handler"</span>, <span class="keyword">function</span>(done) {
+      crawler.http(<span class="string">'http://rawgithub.com/petrofeed/roach/master/README.md'</span>, <span class="keyword">function</span>(err, res, body) {
+        done(err);
+      });
+    });
+
+    it(<span class="string">'should have a file handler'</span>, <span class="keyword">function</span>(done) {
+      ws.on(<span class="string">'finish'</span>, done);
+      crawler.file(__dirname + <span class="string">'/crawler.js'</span>).pipe(ws);
+    });
+    
+    it(<span class="string">"should get from http://"</span>, <span class="keyword">function</span>(done) {
+      ws.on(<span class="string">'finish'</span>, done);
+      crawler.get(<span class="string">'http://rawgithub.com/petrofeed/roach/master/README.md'</span>).pipe(ws);
+    });
+
+    it(<span class="string">'should get from file://'</span>, <span class="keyword">function</span>(done) {
+      ws.on(<span class="string">'finish'</span>, done);
+      crawler.get(<span class="string">'file://'</span> + __dirname + <span class="string">'/crawler.js'</span>).pipe(ws);
+    });
+
+    it(<span class="string">'should get from constructor'</span>, <span class="keyword">function</span>(done) {
+      ws.on(<span class="string">'finish'</span>, done);
+      crawler(<span class="string">'file://'</span> + __dirname + <span class="string">'/crawler.js'</span>).pipe(ws);
+    });
+
+  });
+
+  describe(<span class="string">".csv(...)"</span>, <span class="keyword">function</span>() {
+
+    <span class="keyword">var</span> crawler;
+    beforeEach(<span class="keyword">function</span>() {
+      crawler = roach.crawler();
+    });
+
+    it(<span class="string">"should read and parse csv file"</span>, <span class="keyword">function</span>(done) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>It returns a JSON document if <code>objectMode</code> option
+is specified.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      crawler(<span class="string">'file://'</span> + __dirname + <span class="string">'/fixtures/roach.csv'</span>)
+        .pipe(crawler.csv({
+          objectMode: <span class="literal">true</span>
+        }, <span class="keyword">function</span>(err, doc) {
+          <span class="keyword">if</span>(!err) done();
+        }));
+    });
+    
+  });
+
+
+  describe(<span class="string">".html(...)"</span>, <span class="keyword">function</span>() {
+
+    <span class="keyword">var</span> crawler;
+    beforeEach(<span class="keyword">function</span>() {
+      crawler = roach.crawler();
+    });
+
+    it(<span class="string">"should read and parse html file"</span>, <span class="keyword">function</span>(done) {
+      <span class="keyword">var</span> ws = writable({
+        objectMode: <span class="literal">true</span>
+      });
+      ws._write = <span class="keyword">function</span>(chunk, enc, cb) {
+        <span class="keyword">var</span> result = chunk.toString();
+        <span class="keyword">if</span>(result === <span class="string">'this is a footer'</span>) done();
+        cb();
+      };
+      crawler(<span class="string">'file://'</span> + __dirname + <span class="string">'/fixtures/roach.html'</span>)
+        .pipe(crawler.html(<span class="keyword">function</span>() {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>The callback allows you to select fragment of
+the html document, get attributes and more.
+see <a href="https://github.com/substack/node-trumpet">trumpet</a> for more details.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="keyword">this</span>.select(<span class="string">'footer'</span>)
+            .createReadStream()
+            .pipe(ws);
+        }));
+    });
+    
+  });
+
+
+  describe(<span class="string">".xml(...)"</span>, <span class="keyword">function</span>() {
+    <span class="keyword">var</span> crawler;
+    beforeEach(<span class="keyword">function</span>() {
+      crawler = roach.crawler();
+    });
+
+    it(<span class="string">"should read and parse xml file"</span>, <span class="keyword">function</span>(done) {
+      <span class="keyword">var</span> ws = writable({
+        objectMode: <span class="literal">true</span>
+      });
+      ws._write = <span class="keyword">function</span>(chunk, enc, cb) {
+        <span class="keyword">var</span> result = chunk.toString();
+        <span class="keyword">if</span>(result === <span class="string">'Empire Burlesque'</span>) done();
+        cb();
+      };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>the API for xml is the same as html.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      crawler(<span class="string">'file://'</span> + __dirname + <span class="string">'/fixtures/roach.xml'</span>)
+        .pipe(crawler.xml(<span class="keyword">function</span>() {
+          <span class="keyword">this</span>.select(<span class="string">'item title'</span>)
+            .createReadStream()
+            .pipe(ws);
+        }));
+    });
+  });
+
+  describe(<span class="string">"# event stream"</span>, <span class="keyword">function</span>() {
+
+    <span class="keyword">var</span> crawler;
+    beforeEach(<span class="keyword">function</span>() {
+      crawler = roach.crawler();
+    });
+
+    it(<span class="string">"should inherit from event-stream"</span>, <span class="keyword">function</span>() {
+      assert(crawler.split);
+      assert(crawler.pipeline);
+      assert(crawler.map);
+      assert(crawler.through);
+      assert(crawler.mapSync);
+      assert(crawler.join);
+      assert(crawler.merge);
+      assert(crawler.replace);
+      assert(crawler.parse);
+      assert(crawler.stringify);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>...</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    });
+
+    it(<span class="string">'should do a lot of stuff'</span>, <span class="keyword">function</span>(done) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>see <a href="https://github.com/dominictarr/event-stream">event-stream</a>
+for more details.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      crawler(<span class="string">'file://'</span> + __dirname + <span class="string">'/fixtures/roach.text'</span>)
+        .pipe(crawler.split())
+        .pipe(crawler.mapSync(<span class="keyword">function</span>(data) {
+          <span class="keyword">return</span> data.toUpperCase();
+        }))
+        .pipe(crawler.join(<span class="string">' '</span>))
+        .pipe(crawler.wait())
+        .on(<span class="string">'data'</span>, <span class="keyword">function</span>(data) {
+          <span class="keyword">if</span>(data === <span class="string">'ERIC ASHLEY MARK AMIT'</span>) done();
+        });
+    });
+    
+  });
+
+
+  describe(<span class="string">".unzip(...)"</span>, <span class="keyword">function</span>() {
+
+    <span class="keyword">var</span> crawler;
+    beforeEach(<span class="keyword">function</span>() {
+      crawler = roach.crawler();
+    });
+
+    it(<span class="string">'should unzip archive'</span>, <span class="keyword">function</span>(done) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p><code>unzip</code> accept options in order to extract
+the zip archive instead parsing it.
+see <a href="https://github.com/EvanOxfeld/node-unzip">node-unzip</a></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      crawler(<span class="string">'file://'</span> + __dirname + <span class="string">'/fixtures/test.zip'</span>)
+        .pipe(crawler.unzip())
+        .on(<span class="string">'entry'</span>, <span class="keyword">function</span>(entry) {
+          entry.pipe(crawler.through(<span class="keyword">function</span>(data) {
+            <span class="keyword">if</span>(data.toString() === <span class="string">'hello'</span>) done();
+          }));
+        });
+    });
+
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>see <a href="https://github.com/SheetJS/js-xlsx">xlsjs</a> for more details.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  describe(<span class="string">'.xls(...)'</span>, <span class="keyword">function</span>() {
+    <span class="keyword">var</span> crawler;
+    beforeEach(<span class="keyword">function</span>() {
+      crawler = roach.crawler();
+    });
+
+    it(<span class="string">'should parse xls'</span>, <span class="keyword">function</span>(done) {
+      crawler(<span class="string">'file://'</span> + __dirname + <span class="string">'/fixtures/roach.xls'</span>)
+        .pipe(crawler.xls())
+        .pipe(crawler.through(<span class="keyword">function</span>(data) {
+          done();
+        }));
+    });
+
+    it(<span class="string">'should parse xlsx'</span>, <span class="keyword">function</span>(done) {
+      crawler(<span class="string">'file://'</span> + __dirname + <span class="string">'/fixtures/roach.xlsx'</span>)
+        .pipe(crawler.xlsx())
+        .pipe(crawler.through(<span class="keyword">function</span>(data) {
+          done();
+        }))
+    });
+  });
+
+});</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
