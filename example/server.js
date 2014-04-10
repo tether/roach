@@ -12,5 +12,6 @@ app.add('stocks');
 
 
 app.transport('rabbit');
+app.transport('logger');
 app.use('weather', require('./weather'));
 app.use('stocks');

@@ -28,7 +28,6 @@
   },
   "scripts": {
     "test": "npm run flush && mocha --reporter nyan",
-    "doc-test": "mocha --reporter doc > doc/roach.html",
     "flush": "node utils/flush.js",
     "example": "node example/stocks/index.js & DEBUG=* node example/server.js"
   },
