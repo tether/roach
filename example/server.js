@@ -11,7 +11,7 @@ app.add('stocks');
 //process jobs as soon as possible
 
 
-//app.transport('rabbit');
+app.transport('rabbit');
 app.use('weather', require('./weather'));
 app.use('stocks');
 

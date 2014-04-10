@@ -9,6 +9,21 @@ Install cli:
     $ npm install -g roach
 
 
+```
+  Usage: roach <command> [options]
+
+  Options:
+
+    -h, --help     output usage information
+    -V, --version  output the version number
+    -r, --redis    set redis authentication config
+
+  Commands:
+
+    create [dir]            create a roach bug
+    run            scan folder and looking for jobs
+```
+
 ## Create
 
  Create a roach bug.
@@ -20,6 +35,7 @@ Examples:
 
   # create a bug:
   $ roach create name
+
   
 ```
 
