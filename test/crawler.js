@@ -38,7 +38,7 @@ describe('crawler', function() {
     });
 
     it("should have a http handler", function(done) {
-      crawler.http('http://rawgithub.com/petrofeed/roach/master/README.md', function(err, res, body) {
+      crawler.http('https://www.google.ca/', function(err, res, body) {
         done(err);
       });
     });
@@ -50,7 +50,7 @@ describe('crawler', function() {
     
     it("should get from http://", function(done) {
       ws.on('finish', done);
-      crawler.get('http://rawgithub.com/petrofeed/roach/master/README.md').pipe(ws);
+      crawler.get('https://www.google.ca/').pipe(ws);
     });
 
     it('should get from file://', function(done) {

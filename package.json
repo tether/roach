@@ -29,7 +29,8 @@
   "scripts": {
     "test": "npm run flush && mocha --reporter nyan",
     "flush": "node utils/flush.js",
-    "example": "node example/stocks/index.js & DEBUG=* node example/server.js"
+    "example": "node example/stocks/index.js & DEBUG=* node example/server.js",
+    "doc" : "open doc/spec/api.html"
   },
   "dependencies": {
     "amqp": "=0.1.6",
