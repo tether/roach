@@ -1,0 +1,6 @@
+{
+  "frontend": "./public",
+  "host": "roach.petrofeed.com",
+  "port": 80,
+  "session-secret": "JgXMHPcQTdx48Q"
+}

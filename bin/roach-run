@@ -11,4 +11,4 @@ var conf = process.argv.slice(2)[0];
 if(conf) conf = JSON.parse(conf);
 
 roach(conf)
-  .scan(path.resolve('.'));
+  .scan(path.resolve('./example'));

@@ -1,0 +1,7 @@
+{
+  "frontend": "./public",
+  "crawlers": "./example",
+  "host": "localhost",
+  "port": 5000,
+  "session-secret": "JgXMHPcQTdx48Q"
+}
