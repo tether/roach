@@ -4,15 +4,15 @@
 
 ## Concept
 
- A job is a simple and clean API that helps you to communicate with a roach server. It's the entry point of your crawler but it totally independant from it (could potentially be used in client side). Do whatever you want, a job just carries the data and receive or send commands to redis.
+A job is a simple and clean API that helps you to communicate with a roach server. It's the entry point of your crawler but it totally independant from it (could potentially be used in client side). Do whatever you want, a job just carries the data and receive or send commands to redis.
 
- It is inspired by expressjs and its middleware mechanism.
+It is inspired by expressjs and its middleware mechanism.
 
 ```js
 var wells = module.exports = roach.job();
 ```
 
- A job is like an expressjs app, it is a sandbox with single responsabilities that you can use or reuse multiple times. 
+A job is like an expressjs app, it is a sandbox with single responsabilities that you can use or reuse multiple times. 
 
 ```js
 roach()
@@ -26,13 +26,13 @@ roach()
 
 ### job()
 
- Create a new job.
+Create a new job.
 
 ```js
 var job = module.exports = roach.job();
 ```
 
- It is important to export the job in order to be used by roach. However, a job can run in a separate process and communicate with a roach server.
+It is important to export the job in order to be used by roach. However, a job can run in a separate process and communicate with a roach server.
 
 ```js
 var separate = roach.job();
@@ -44,9 +44,9 @@ separate.subscribe('myjob');
 
 ### .emit(topic) and .on(topic)
 
- A `job` inherits from an emitter. 
+A `job` inherits from an emitter. 
 
- Emit message.
+Emit message.
 
 ```js
 //send message inside the job
@@ -72,17 +72,17 @@ All the `_publish` commands are queued until the job is initialized by roach and
 
 ### .config(name, data)
 
- Set/Get a config attribute.
+Set/Get a config attribute.
 
 
 ```js
 job.config('name','my crawler');
 ```
 
-  Emits `change` event with `name, value, previous value`.<br>
-  Emits `change name` event with `value, previous value`.
+Emits `change` event with `name, value, previous value`.<br>
+Emits `change name` event with `value, previous value`.
 
- Or set multuple attributes.
+Or set multuple attributes.
 
 ```js
 job.config({
@@ -91,7 +91,7 @@ job.config({
 });
 ```
 
- Or get a config attribute
+Or get a config attribute
 
 ```js
 job.config('name');
@@ -101,7 +101,7 @@ job.config('name');
 
 ### .log(str, args...)
 
- Send log message.
+Send log message.
 
 basic:
 
@@ -120,29 +120,29 @@ array-like:
 ```js
 job.log('name %1 %0','roach', 'jobs');
 ```
- In the future, `log` could have priorities in order to display syslog-like messages (warn, error, etc).
+In the future, `log` may have priorities in order to display syslog-like messages (warn, error, etc).
 
   > pubsub pattern is `roach:job:$id` 
 
-### .process(value, total)
+### .progress(value, total)
 
- Tells roach how much the job is completed.
+Tells roach how much of the job is completed.
 
 ```js
-job.process(10);
+job.progress(10);
 ```
 
 or ratio on total:
 
 ```js
-job.process(13, 120);
+job.progress(13, 120);
 ```
 
   > pubsub pattern is `roach:job:$id` 
 
 ### .data(smthg)
 
- Publish data to redis through the private `_data` command. Data are published only if the job is identified by roach (has an id).
+Publish data to redis through the private `_data` command. Data are published only if the job is identified by roach (has an id).
 
 ```js
 job.data('something');
@@ -151,7 +151,7 @@ job.data('something');
 
 ### .start(fn)
 
- Execute callback on `start` (one or serveral times).
+Execute callback on `start` (one or serveral times).
 
 ```js
 job.start(function(){
@@ -159,7 +159,7 @@ job.start(function(){
 });
 ```
 
- You can do the same thing with the method `on`:
+You can do the same thing with the method `on`:
 
 ```js
 job.on('start', function() {
@@ -169,7 +169,7 @@ job.on('start', function() {
 
 ### .stop()
 
- Send `stop` command to roach.
+Send `stop` command to roach.
 
 ```js
 job.stop(); //hammer time

@@ -4,7 +4,7 @@
 
 ## Concept
 
- A Crawler is a bundle of 'pipable' utils. 
+A Crawler is a bundle of 'pipeable' utils. 
 
 ```js
 var crawler = roach.crawler(mixin);
@@ -16,7 +16,7 @@ crawler('http://domain/file.json')
 	.pipe(crawler.wait()); //wait end and concat strings
 ```
 
- With `crawler` you can get files locally or through http, you can parse JSON, text, XML, HTML or CSV and way more (see [api](#api)).
+With a `crawler` you can get files locally or through http. We have built a series of utils that you can use to parse JSON, text, XML, HTML or CSV and more... (see [api](#api)).
 
 ## API
 
@@ -37,7 +37,7 @@ crawler('http://domain/file.json')
 
 ### crawler(url)
 
- Get file (alias `get`) from disk or through http. A crawler is smart enough to know what to do!
+Get file (alias `get`) from disk or through http. A crawler is smart enough to know what to do!
 
 ```js
 //get through http
@@ -50,7 +50,7 @@ crawler('file://user/path/file.txt');
 
 ### .get(url)
 
- Get file (alias `get`) from disk or through http.
+Get file (alias `get`) from disk or through http.
 
 ```js
 //get through http
@@ -62,7 +62,7 @@ crawler.get('file://user/path/file.txt');
 
 ### .file(url)
 
- Get file from disk.
+Get file from disk.
 
 ```js
 //get from disk
@@ -71,7 +71,7 @@ crawler.file('/user/path/file.txt');
 
 ### .http(url)
 
- Get file from disk.
+Get file from the web.
 
 ```js
 //get through http
@@ -88,7 +88,7 @@ crawler(/* url */)
 
 ```
 
- The callback `cb` allows you to get access to the parser (with the query selection engine):
+The callback `cb` allows you to get access to the parser (with the query selection engine):
 
 ```js
 crawler(/* url */)
@@ -101,7 +101,7 @@ crawler(/* url */)
 
 ### .xml(cb)
 
- Parse XML and stream result.
+Parse XML and stream result.
 
 ```js
 crawler(/* url */)
@@ -109,7 +109,7 @@ crawler(/* url */)
 
 ```
 
- The callback `cb` allows you to get access to the parser (with the query selection engine):
+The callback `cb` allows you to get access to the parser (with the query selection engine):
 
 ```js
 crawler(/* url */)
@@ -122,7 +122,7 @@ crawler(/* url */)
 
 ### .csv(options, cb)
 
- Parse CSV and stream result.
+Parse CSV and stream result.
 
 ```js
 crawler(/* url */)
@@ -134,7 +134,7 @@ crawler(/* url */)
 
 ### .unzip()
 
- Unzip archive and steam entries.
+Unzip archive and steam entries.
 
 ```js
 crawler(/* url */)
@@ -147,7 +147,7 @@ crawler(/* url */)
 
 ### .xls()
 
- Read and parse xls file. See [sheet](https://github.com/SheetJS) for more details.
+Read and parse xls file. See [sheet](https://github.com/SheetJS) for more details.
 
 ```js
 crawler(/* url */)
@@ -161,7 +161,7 @@ crawler(/* url */)
 
 ### .xlsx()
 
- Read and parse xlsx file.
+Read and parse xlsx file.
 
 ```js
 crawler(/* url */)

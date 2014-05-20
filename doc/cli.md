@@ -1,6 +1,6 @@
 # Roach CLI
 
-  A command line interface to run a roach server, create or scheduled jobs.
+  A command line interface to run a roach server, create or schedule jobs.
 
 ## Help
 
@@ -20,20 +20,20 @@ Install cli:
 
   Commands:
 
-    create [dir]            create a roach bug
-    run            scan folder and looking for jobs
+    create [dir]       scaffold a roach crawler in the given directory
+    run                run the roach server
 ```
 
 ## Create
 
- Create a roach bug.
+ Create a roach crawler.
 
 ```
 Usage: roach create [<dir>]
 
 Examples:
 
-  # create a bug:
+  # create a crawler:
   $ roach create name
 
   
