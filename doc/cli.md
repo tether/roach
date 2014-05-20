@@ -1,4 +1,4 @@
-# cli
+# Roach CLI
 
   A command line interface to run a roach server, create or scheduled jobs.
 

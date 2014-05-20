@@ -1,4 +1,4 @@
-# roach server
+# Roach Server
 
   > status : [public](#concept)
 

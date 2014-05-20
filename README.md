@@ -1,6 +1,6 @@
-# roach
+# Roach
 
-  Roach is a crawler queue backend by redis
+  Roach is a web crawling system with a job queue backed by redis. It allows you to write web crawlers, schedule those crawlers, and send the output to multiple locations ([transports](./doc/transports.md)).
 
 ## Installation
 
@@ -8,7 +8,7 @@
 
     $ npm install roach
 
-  Roach is also a command line:
+  Roach is also has a [CLI](./doc/cli.md). To use it:
 
     $ npm install -g roach
 
@@ -51,6 +51,7 @@ DEBUG=* node server.js
   - [job](./doc/bug.md)
   - [crawler](./doc/crawler.md)  
   - [cli](./doc/cli.md)
+  - [transports](./doc/transports.md)
 
 
 ## License
