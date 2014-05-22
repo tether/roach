@@ -50,7 +50,7 @@ DEBUG=* node server.js
 ## Documentation
 
   - [roach](./doc/server.md)
-  - [job](./doc/bug.md)
+  - [job](./doc/job.md)
   - [crawler](./doc/crawler.md)  
   - [cli](./doc/cli.md)
   - [transports](./doc/transports.md)
