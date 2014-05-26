@@ -18,6 +18,7 @@ program
   .version(require('../package.json').version)
   .usage('<command> [options]')
   .option('-r, --redis', 'set redis authentication config')
+  // .option('-c, --crawlers', 'set path to the root crawlers directory')
   .option('-s, --server', 'run roach in server mode');
 
 
@@ -57,7 +58,7 @@ var bin = 'roach-' + cmd;
 var local = join(__dirname, bin);
 
 
-function spawnCmd(conf) {
+function spawnCmd(options) {
 
   if (exists(local)) {
     bin = local;
@@ -70,12 +71,8 @@ function spawnCmd(conf) {
     program.help();
   }
 
-  if (program.server) {
-    conf = _.extend({}, conf, { server: true });
-  }
-
   // spawn
-  var proc = spawn(bin, _.isEmpty(conf) ? [] : [JSON.stringify(conf)], { stdio: 'inherit', customFds: [0, 1, 2] });
+  var proc = spawn(bin, _.isEmpty(options) ? [] : [JSON.stringify(options)], { stdio: 'inherit', customFds: [0, 1, 2] });
 
   proc.on('close', function(code){
     process.exit(code);
@@ -83,8 +80,9 @@ function spawnCmd(conf) {
 
 }
 
+var options = {};
 
-if(program.redis) {
+if (program.redis) {
 
   var prompt = {
     port: 'port (default: 6379) : ',
@@ -94,15 +92,32 @@ if(program.redis) {
   // prompt
 
   program.prompt(prompt, function(obj){
-    var conf = {};
-    conf.port = obj.port || 6379;
-    conf.host = obj.host || '127.0.0.1';
-    spawnCmd(conf);
+    options.redis = {
+      port: obj.port || 6379,
+      host: obj.host || '127.0.0.1'
+    };
   });
 
-} else {
-  spawnCmd();
 }
+
+if (program.server) {
+  var prompt = {
+    port: 'port (default: 5000) : ',
+    host: 'host (default: 127.0.0.1) : '
+  };
+
+  // prompt
+
+  program.prompt(prompt, function(obj){
+    options.server = {
+      port: obj.port || 6379,
+      host: obj.host || '127.0.0.1',
+      run: true
+    };
+  });
+}
+
+spawnCmd(options);
 
 
 
