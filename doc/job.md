@@ -132,7 +132,7 @@ Tells roach how much of the job is completed.
 job.progress(10);
 ```
 
-or ratio on total:
+or ratio of total:
 
 ```js
 job.progress(13, 120);
