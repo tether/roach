@@ -1,6 +1,7 @@
-var app = require('..')({ server: true });
-var client = require('redis').createClient();
+var app = require('..')();
 
+// setup the roach server
+app.server();
 
 //add jobs in queue
 
