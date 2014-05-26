@@ -4,11 +4,13 @@
  * Module dependencies.
  */
 
-var roach = require('..');
 var path = require('path');
 
 var options = process.argv.slice(2)[0];
 if (options) options = JSON.parse(options);
 
-roach(options)
-  .scan(path.resolve('./example'));
+var roach = require('..')(options);
+
+if (options && options.crawlers) {
+  roach.scan( path.resolve(process.cwd(), options.crawlers) );
+}

@@ -18,7 +18,7 @@ program
   .version(require('../package.json').version)
   .usage('<command> [options]')
   .option('-r, --redis', 'set redis authentication config')
-  // .option('-c, --crawlers', 'set path to the root crawlers directory')
+  .option('-c, --crawlers <path>', 'set path to the root crawlers directory')
   .option('-s, --server', 'run roach in server mode');
 
 
@@ -81,6 +81,10 @@ function spawnCmd(options) {
 }
 
 var options = {};
+
+if (program.crawlers) {
+  options.crawlers = program.crawlers;
+}
 
 if (program.redis) {
 

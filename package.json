@@ -28,7 +28,7 @@
   },
   "scripts": {
     "test": "npm run flush && mocha --reporter spec",
-    "server": "DEBUG=* ./bin/roach run --server",
+    "server": "DEBUG=* ./bin/roach run --server --crawlers example/",
     "worker": "DEBUG=* ./bin/roach run",
     "flush": "node utils/flush.js",
     "example": "node example/stocks/index.js & DEBUG=* node example/server.js",
