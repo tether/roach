@@ -7,8 +7,8 @@
 var roach = require('..');
 var path = require('path');
 
-var conf = process.argv.slice(2)[0];
-if(conf) conf = JSON.parse(conf);
+var options = process.argv.slice(2)[0];
+if (options) options = JSON.parse(options);
 
-roach(conf)
+roach(options)
   .scan(path.resolve('./example'));
