@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+var _ = require('lodash');
 var program = require('commander');
 var path = require('path');
 var resolve = path.resolve;
@@ -16,7 +17,8 @@ var exists = fs.existsSync;
 program
   .version(require('../package.json').version)
   .usage('<command> [options]')
-  .option('-r, --redis', 'set redis authentication config');
+  .option('-r, --redis', 'set redis authentication config')
+  .option('-s, --server', 'run roach in server mode');
 
 
 /**
@@ -26,8 +28,8 @@ program
 program.on('--help', function () {
   console.log('  Commands:');
   console.log();
-  console.log('    create [dir]            create a roach bug');
-  console.log('    run            scan folder and looking for jobs');  
+  console.log('    create [dir]       scaffold a roach crawler in the given directory');
+  console.log('    run                run the roach server');
   console.log();
 });
 
@@ -64,12 +66,16 @@ function spawnCmd(conf) {
   // display help if bin does not exist
 
   if (!exists(bin)) {
-    console.error('\n  %s(1) does not exist', bin);
+    console.error('\n  %s"(1)"" is not a valid roach command', bin);
     program.help();
   }
 
+  if (program.server) {
+    conf = _.extend({}, conf, { server: true });
+  }
+
   // spawn
-  var proc = spawn(bin, conf ? [conf] : [], { stdio: 'inherit', customFds: [0, 1, 2] });
+  var proc = spawn(bin, _.isEmpty(conf) ? [] : [JSON.stringify(conf)], { stdio: 'inherit', customFds: [0, 1, 2] });
 
   proc.on('close', function(code){
     process.exit(code);
@@ -91,7 +97,7 @@ if(program.redis) {
     var conf = {};
     conf.port = obj.port || 6379;
     conf.host = obj.host || '127.0.0.1';
-    spawnCmd(JSON.stringify(conf));
+    spawnCmd(conf);
   });
 
 } else {

@@ -53,7 +53,7 @@ program.usage('[dir]');
 // options
 
 program
-  .option('-s, --schedule', 'create a scheduled bug')
+  .option('-s, --schedule', 'schedule a crawler')
   .parse(process.argv);
 
 // config
