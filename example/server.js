@@ -1,4 +1,4 @@
-var app = require('..')();
+var app = require('..')({ server: true });
 var client = require('redis').createClient();
 
 
