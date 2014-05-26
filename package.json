@@ -27,7 +27,7 @@
     "through": "~2.3.4"
   },
   "scripts": {
-    "test": "npm run flush && mocha --reporter nyan",
+    "test": "npm run flush && mocha --reporter spec",
     "server": "DEBUG=* ./bin/roach run --server",
     "worker": "DEBUG=* ./bin/roach run",
     "flush": "node utils/flush.js",
