@@ -49,6 +49,12 @@ DEBUG=* node server.js
 
 ## Documentation
 
+### Architecture Overview
+
+![Roach Overview](./doc/v0.2.0-overview.jpg)
+
+### API Docs
+
   - [roach](./doc/server.md)
   - [job](./doc/job.md)
   - [crawler](./doc/crawler.md)  
